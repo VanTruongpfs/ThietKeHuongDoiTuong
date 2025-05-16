@@ -1,0 +1,643 @@
+package quanlicuahang;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+public class GiaoDienChinh extends JFrame {
+	JPanel pnTaoDon, pnQuanLyHoaDon, pnQuanLyNhanVien, pnQuanLySanPham, pnQuanLyKhachHang;
+	JMenuBar menubar;
+	JMenu mnHoaDon, mnQuanLiHeThong;
+	JMenuItem mniQuanLyHoaDon, mniQuanLySanPham, mniQuanLyNhanVien, mniQuanLiKhachHang;
+	CardLayout cardLayout;
+	// các thành phần của tạo đơn
+	JSplitPane splitPaneTD;
+	JPanel pnTraiTD, pnPhaiTD, pnThanhToan, pnThongTin,pnThaoTac;
+	JTextField tfMaHD, tfNgayLap, tfSDT, tfTongTien, tfTienKhach;
+	JComboBox<String> cbTenNV;
+	JTable tblChiTiet, tblMenu;
+	DefaultTableModel modelChiTiet;
+	JRadioButton rdTienMat, rdChuyenKhoan, rdTheNganHang;
+	ButtonGroup bgPTTT;
+	JButton btnHuy, btnXuat, btnTimKiemTD, btnThemSP, btnXoaSP;
+	JTextField tfTimKiemTD;
+	JLabel lblMaHD, lblNgayLap,lblTongTien, lblPTTT,lblTenNV,lblTienKhach;
+	String[] tenNV;
+	JComboBox<String> cbTenNV;
+	// các thành phần của khách hàng
+	JPanel pnTrai, pnPhai, pnTren, pnDuoi, pnD, formPanel, pnTimKiem;
+	JButton btnThem, btnXoa, btnSua, btnTim;
+	JLabel titleLabel;
+	JTextField txtMaKH, txtTenKH, txtDiaChi, txtSDT, txtDiem, tfTimKiem;
+	JComboBox<String> cboGioiTinh;
+	DefaultTableModel modelKH;
+	JTable tblKH;
+	JScrollPane scrollKH;
+	JSplitPane splitPane;
+	// các thành phần của sản phẩm
+	JButton bSave, add, remove, nutSerach;
+	JTextField textMaSP, textMaSP_Xoa, textTenSP, textSLSP, textGiaSP, textAnhSP;
+
+	public GiaoDienChinh() {
+		setTitle("Quản lý cửa hàng");
+		setSize(1000, 600);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		// CardLayout cho content pane
+		cardLayout = new CardLayout();
+		getContentPane().setLayout(cardLayout);
+
+		// Tạo menu
+		menubar = new JMenuBar();
+		mnHoaDon = new JMenu("Tạo hóa đơn");
+		mnQuanLiHeThong = new JMenu("Chức năng quản lý");
+
+		menubar.add(mnHoaDon);
+		menubar.add(mnQuanLiHeThong);
+		// menu item
+		mniQuanLyHoaDon = new JMenuItem("Quản lý hóa đơn");
+		mniQuanLyNhanVien = new JMenuItem("Quản lý nhân viên");
+		mniQuanLySanPham = new JMenuItem("Quản lý sản phẩm");
+		mniQuanLiKhachHang = new JMenuItem("Quản lý khách hàng");
+		mnQuanLiHeThong.add(mniQuanLyHoaDon);
+		mnQuanLiHeThong.add(mniQuanLySanPham);
+		mnQuanLiHeThong.add(mniQuanLyNhanVien);
+		mnQuanLiHeThong.add(mniQuanLiKhachHang);
+		setJMenuBar(menubar);
+
+		// Tạo các panel
+		pnTaoDon = new JPanel(new BorderLayout());
+		taoGiaoDienTaoDon();
+
+		pnQuanLyHoaDon = new JPanel();
+		pnQuanLyHoaDon.add(new JLabel("Quản lý hóa đơn"));
+
+		pnQuanLyNhanVien = new JPanel();
+		pnQuanLyNhanVien.add(new JLabel("Quản lý nhân viên"));
+		taoGiaoDienQuanLyNhanVien();
+
+		pnQuanLySanPham = new JPanel();
+		pnQuanLySanPham.add(new JLabel("Quản lý sản phẩm"));
+		taoQuanLySanPham();
+		pnQuanLyKhachHang = new JPanel();
+		pnQuanLyKhachHang.add(new JLabel("Quản lý khách hàng"));
+		taoGiaoDienQuanLyKhachHang();
+
+		getContentPane().add(pnQuanLyHoaDon, "QLHoaDon");
+		getContentPane().add(pnQuanLyNhanVien, "QLNhanVien");
+		getContentPane().add(pnQuanLySanPham, "QLSanPham");
+		getContentPane().add(pnQuanLyKhachHang, "QLKhachHang");
+
+		// Thêm các panel vào CardLayout
+		getContentPane().add(pnTaoDon, "TaoDon");
+		cardLayout.show(getContentPane(), "TaoDon");
+
+		// Thêm sự kiện chuyển layout
+		mnHoaDon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cardLayout.show(getContentPane(), "TaoDon");
+			}
+		});
+
+		mniQuanLyHoaDon.addActionListener(e -> cardLayout.show(getContentPane(), "QLHoaDon"));
+		mniQuanLyNhanVien.addActionListener(e -> cardLayout.show(getContentPane(), "QLNhanVien"));
+		mniQuanLySanPham.addActionListener(e -> cardLayout.show(getContentPane(), "QLSanPham"));
+		mniQuanLiKhachHang.addActionListener(e -> cardLayout.show(getContentPane(), "QLKhachHang"));
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+
+	// Giao diện tạo hóa đơn
+	private void taoGiaoDienTaoDon() {
+		// Panel chính chứa bên trái và phải
+		splitPaneTD = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPaneTD.setResizeWeight(0.4);
+
+		// === Panel trái: Form hóa đơn ===
+		pnTraiTD = new JPanel(new BorderLayout());
+		pnThongTin = new JPanel(new GridLayout(4, 2, 10, 10));
+		pnThongTin.setBorder(BorderFactory.createTitledBorder("HÓA ĐƠN BÁN LẺ"));
+
+		// Các trường nhập liệu (tạo trước)
+		lblMaHD = new JLabel("Mã hóa đơn");
+		tfMaHD = new JTextField("HD002");
+
+		lblNgayLap = new JLabel("Ngày lập hóa đơn");
+		LocalDate date = LocalDate.now();
+		tfNgayLap = new JTextField(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear());
+
+		lblTenNV = new JLabel("Tên nhân viên");
+		String[] tenNV = { "Lê Vân Trường", "Lê Hữu Phước", "Nguyễn Gia Huy", "Trương Cao Đoàn", "Trần Nguyễn Thanh Tú",
+				"Nguyễn Trọng Tín" };
+		JComboBox<String> cbTenNV = new JComboBox<>(tenNV);
+
+		lblSDT = new JLabel("SDT khách hàng");
+		JTextField tfSDT = new JTextField();
+
+		// Thêm vào panel thông tin
+		pnThongTin.add(lblMaHD);
+		pnThongTin.add(tfMaHD);
+		pnThongTin.add(lblNgayLap);
+		pnThongTin.add(tfNgayLap);
+		pnThongTin.add(lblTenNV);
+		pnThongTin.add(cbTenNV);
+		pnThongTin.add(lblSDT);
+		pnThongTin.add(tfSDT);
+
+		// Bảng chi tiết món
+		String[] khoSP = { "TÊN MÓN", "SỐ LƯỢNG", "ĐƠN GIÁ", "THÀNH TIỀN" };
+		DefaultTableModel modelChiTiet = new DefaultTableModel(khoSP, 0);
+		JTable tblChiTiet = new JTable(modelChiTiet);
+		JScrollPane scrollChiTiet = new JScrollPane(tblChiTiet);
+
+		// Panel thanh toán
+		pnThanhToan = new JPanel(new GridLayout(3, 2));
+		pnThanhToan.setBorder(BorderFactory.createTitledBorder("Thanh toán"));
+
+		lblTongTien = new JLabel("Tổng tiền");
+		JTextField tfTongTien = new JTextField();
+
+		lblPTTT = new JLabel("PTTT");
+		rdTienMat = new JRadioButton("Tiền mặt");
+		rdChuyenKhoan = new JRadioButton("Chuyển khoản");
+		rdTheNganHang = new JRadioButton("Thẻ NH");
+		ButtonGroup bgPTTT = new ButtonGroup();
+		bgPTTT.add(rdTienMat);
+		bgPTTT.add(rdChuyenKhoan);
+		bgPTTT.add(rdTheNganHang);
+		JPanel ptPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		ptPanel.add(rdTienMat);
+		ptPanel.add(rdChuyenKhoan);
+		ptPanel.add(rdTheNganHang);
+
+		lblTienKhach = new JLabel("Tiền khách đưa");
+		tfTienKhach = new JTextField();
+
+		pnThanhToan.add(lblTongTien);
+		pnThanhToan.add(tfTongTien);
+		pnThanhToan.add(lblPTTT);
+		pnThanhToan.add(ptPanel);
+		pnThanhToan.add(lblTienKhach);
+		pnThanhToan.add(tfTienKhach);
+
+		// Nút thao tác
+		btnHuy = new JButton("Hủy hóa đơn");
+		btnXuat = new JButton("Xuất hóa đơn");
+		JPanel pnNut = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		pnNut.add(btnHuy);
+		pnNut.add(btnXuat);
+
+		// Gắn vào trái
+		pnTraiTD.add(pnThongTin, BorderLayout.NORTH);
+		pnTraiTD.add(scrollChiTiet, BorderLayout.CENTER);
+
+		JPanel pnDuoiTrai = new JPanel(new BorderLayout());
+		pnDuoiTrai.add(pnThanhToan, BorderLayout.CENTER);
+		pnDuoiTrai.add(pnNut, BorderLayout.SOUTH);
+		pnTraiTD.add(pnDuoiTrai, BorderLayout.SOUTH);
+
+		// === Panel phải: MENU BAR ===
+		pnPhaiTD = new JPanel(new BorderLayout());
+		pnPhaiTD.setBorder(BorderFactory.createTitledBorder("MENU BAR"));
+
+		String[] cols = { "Tên món", "Ảnh", "Giá", "Số lượng còn lại" };
+		Object[][] data = { { "OSHI KHOAI TÂY", ".....", 25000.0, 10 }, { "SỮA VINAMILk", ".........", 30000.0, 100 },
+				{ "Xà bông", ".........", 45000.0, 20 }, { "Búa", ".........", 45000.0, 49 },
+				{ "Dao", "...........", 36000.0, 21 }, { "Pin", "..............", 35000.0, 30 } };
+		JTable tblMenu = new JTable(new DefaultTableModel(data, cols));
+		JScrollPane scrollMenu = new JScrollPane(tblMenu);
+
+		JTextField tfTimKiem = new JTextField();
+		JButton btnTim = new JButton("Tìm Kiếm");
+		JPanel pnTimKiem = new JPanel(new BorderLayout());
+		pnTimKiem.add(tfTimKiem, BorderLayout.CENTER);
+		pnTimKiem.add(btnTim, BorderLayout.EAST);
+
+		btnThemSP = new JButton("Thêm sản phẩm");
+		btnXoaSP = new JButton("Xóa sản phẩm");
+		pnThaoTac = new JPanel();
+		pnThaoTac.add(btnThemSP);
+		pnThaoTac.add(btnXoaSP);
+
+		pnPhaiTD.add(pnTimKiem, BorderLayout.NORTH);
+		pnPhaiTD.add(scrollMenu, BorderLayout.CENTER);
+		pnPhaiTD.add(pnThaoTac, BorderLayout.SOUTH);
+
+		// Gắn vào SplitPane
+		splitPaneTD.setLeftComponent(pnTraiTD);
+		splitPaneTD.setRightComponent(pnPhaiTD);
+
+		pnTaoDon.removeAll();
+		pnTaoDon.add(splitPaneTD, BorderLayout.CENTER);
+		pnTaoDon.revalidate();
+		pnTaoDon.repaint();
+	}
+
+// tạo giao diện quản lý khách hàng
+	private void taoGiaoDienQuanLyKhachHang() {
+		pnQuanLyKhachHang.setLayout(new BorderLayout());
+		// Panel bên trái
+		pnTrai = new JPanel();
+		pnTrai.setLayout(new BoxLayout(pnTrai, BoxLayout.Y_AXIS));
+		pnTrai.setBorder(BorderFactory.createTitledBorder("QUẢN LÍ KHÁCH HÀNG"));
+
+		btnThem = new JButton("Thêm khách hàng");
+		btnXoa = new JButton("Xóa khách hàng");
+		btnSua = new JButton("Sửa khách hàng");
+
+		// Tạo panel chứa các ô nhập liệu theo dạng bảng
+		formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+		formPanel.setBorder(BorderFactory.createTitledBorder("Thêm khách hàng"));
+		// Các ô nhập liệu
+		txtMaKH = new JTextField();
+		txtTenKH = new JTextField();
+		cboGioiTinh = new JComboBox<>(new String[] { "Nam", "Nữ" });
+		txtDiaChi = new JTextField();
+		txtSDT = new JTextField();
+		txtDiem = new JTextField();
+
+		// Thêm vào form
+		formPanel.add(new JLabel("Mã khách hàng:"));
+		formPanel.add(txtMaKH);
+
+		formPanel.add(new JLabel("Tên khách hàng:"));
+		formPanel.add(txtTenKH);
+
+		formPanel.add(new JLabel("Số điện thoại:"));
+		formPanel.add(txtSDT);
+
+		formPanel.add(new JLabel("Giới tính:"));
+		formPanel.add(cboGioiTinh);
+
+		formPanel.add(new JLabel("Địa chỉ:"));
+		formPanel.add(txtDiaChi);
+
+		formPanel.add(new JLabel("Điểm"));
+		formPanel.add(txtDiem);
+		pnTrai.add(formPanel, BorderLayout.NORTH);
+		pnTrai.add(Box.createVerticalStrut(30));
+
+		pnDuoi = new JPanel();
+		pnDuoi.setLayout(new FlowLayout());
+		pnDuoi.add(btnThem);
+		pnDuoi.add(btnXoa);
+		pnDuoi.add(btnSua);
+
+		pnTrai.add(pnDuoi, BorderLayout.CENTER);
+
+		// Panel bên phải (tìm kiếm + bảng)
+		pnPhai = new JPanel(new BorderLayout());
+
+		pnTimKiem = new JPanel(new BorderLayout());
+		tfTimKiem = new JTextField();
+		btnTim = new JButton("Tìm");
+		pnTimKiem.add(new JLabel("Nhập thông tin cần tìm: "), BorderLayout.WEST);
+		pnTimKiem.add(tfTimKiem, BorderLayout.CENTER);
+		pnTimKiem.add(btnTim, BorderLayout.EAST);
+
+		String[] cols = { "Mã KH", "Tên khách hàng", "Số điện thoại", "Giới tính", "Địa chỉ", "Điểm tích lũy" };
+		modelKH = new DefaultTableModel(cols, 0);
+		tblKH = new JTable(modelKH);
+		scrollKH = new JScrollPane(tblKH);
+
+		pnPhai.add(pnTimKiem, BorderLayout.NORTH);
+		pnPhai.add(scrollKH, BorderLayout.CENTER);
+
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnTrai, pnPhai);
+		splitPane.setDividerLocation(450);
+		splitPane.setResizeWeight(0.1);
+		pnQuanLyKhachHang.removeAll();
+		pnQuanLyKhachHang.add(splitPane, BorderLayout.CENTER);
+		pnQuanLyKhachHang.revalidate();
+		pnQuanLyKhachHang.repaint();
+
+		// ===== XỬ LÝ CÁC NÚT =====
+
+		// Thêm khách hàng
+		btnThem.addActionListener(e -> {
+
+			String ma = txtMaKH.getText().trim();
+			String ten = txtTenKH.getText().trim();
+			String gt = (String) cboGioiTinh.getSelectedItem();
+			String dc = txtDiaChi.getText().trim();
+			String sdt = txtSDT.getText().trim();
+			String diem = txtDiem.getText().trim();
+
+			if (ma.isEmpty() || ten.isEmpty() || dc.isEmpty() || sdt.isEmpty() || diem.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin!");
+				return;
+			}
+
+			modelKH.addRow(new Object[] { ma, ten, sdt, gt, dc, diem });
+			JOptionPane.showMessageDialog(null, "Đã thêm khách hàng!");
+
+			// Clear sau khi thêm
+			txtMaKH.setText("");
+			txtTenKH.setText("");
+			cboGioiTinh.setSelectedIndex(0);
+			txtDiaChi.setText("");
+			txtSDT.setText("");
+			txtDiem.setText("");
+		});
+
+		// Xóa khách hàng
+		btnXoa.addActionListener(e -> {
+			int row = tblKH.getSelectedRow();
+			if (row != -1) {
+				int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa khách hàng này?",
+						"Xác nhận", JOptionPane.YES_NO_OPTION);
+				if (confirm == JOptionPane.YES_OPTION) {
+					modelKH.removeRow(row);
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để xóa!");
+			}
+		});
+
+		// Sửa khách hàng
+		btnSua.addActionListener(e -> {
+			int row = tblKH.getSelectedRow();
+			if (row != -1) {
+				String maKH = (String) modelKH.getValueAt(row, 0);
+				String tenKH = JOptionPane.showInputDialog(this, "Nhập tên KH mới:", modelKH.getValueAt(row, 1));
+				String sdt = JOptionPane.showInputDialog(this, "Nhập số điện thoại mới:", modelKH.getValueAt(row, 2));
+				String dc = JOptionPane.showInputDialog(this, "Nhập địa chỉ mới:", modelKH.getValueAt(row, 4));
+
+				if (tenKH != null && sdt != null && !tenKH.isEmpty() && !sdt.isEmpty()) {
+					modelKH.setValueAt(tenKH, row, 1);
+					modelKH.setValueAt(sdt, row, 2);
+					modelKH.setValueAt(dc, row, 4);
+				} else {
+					JOptionPane.showMessageDialog(this, "Thông tin không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để sửa!");
+			}
+		});
+	}
+
+	// giao diện quản lí nhân viên
+	private void taoGiaoDienQuanLyNhanVien() {
+		// Xóa sạch giao diện cũ nếu có
+		pnQuanLyNhanVien.removeAll();
+		pnQuanLyNhanVien.setLayout(new BorderLayout());
+
+		JPanel panel_QLNV = new JPanel(new BorderLayout());
+		panel_QLNV.setBorder(BorderFactory.createTitledBorder("Quản Lí Nhân Viên"));
+
+		// ========== KHU VỰC TÌM KIẾM NHÂN VIÊN ==========
+		JPanel pnTimKiem = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		pnTimKiem.setBorder(BorderFactory.createTitledBorder("Tìm kiếm nhân viên"));
+
+		JLabel lblMaTK = new JLabel("Mã nhân viên: ");
+		JTextField tfMaTK = new JTextField(15);
+		JButton btnTimKiem = new JButton("Tìm");
+
+		pnTimKiem.add(lblMaTK);
+		pnTimKiem.add(tfMaTK);
+		pnTimKiem.add(btnTimKiem);
+
+		// Đặt panel tìm kiếm lên đầu giao diện
+		panel_QLNV.add(pnTimKiem, BorderLayout.NORTH);
+
+		// ========== KHU VỰC TRÁI: FORM NHẬP + XÓA ==========
+		JPanel pnTrai = new JPanel(new BorderLayout());
+
+		// ---- FORM THÊM NHÂN VIÊN ----
+		JPanel pnForm = new JPanel(new GridLayout(8, 2));
+		pnForm.setBorder(BorderFactory.createTitledBorder("Thêm nhân viên"));
+
+		// Các trường nhập liệu
+		JTextField tfMaNV = new JTextField();
+		JTextField tfTenNV = new JTextField();
+		JTextField tfNgaySinh = new JTextField();
+		JTextField tfGioiTinh = new JTextField();
+		JTextField tfDiaChi = new JTextField();
+		JTextField tfSDT = new JTextField();
+		JTextField tfChucVu = new JTextField();
+		JTextField tfLuong = new JTextField();
+
+		// Gắn label và ô nhập tương ứng
+		pnForm.add(new JLabel("Mã nhân viên:"));
+		pnForm.add(tfMaNV);
+		pnForm.add(new JLabel("Tên nhân viên:"));
+		pnForm.add(tfTenNV);
+		pnForm.add(new JLabel("Ngày sinh:"));
+		pnForm.add(tfNgaySinh);
+		pnForm.add(new JLabel("Giới tính:"));
+		pnForm.add(tfGioiTinh);
+		pnForm.add(new JLabel("Địa chỉ:"));
+		pnForm.add(tfDiaChi);
+		pnForm.add(new JLabel("Số điện thoại:"));
+		pnForm.add(tfSDT);
+		pnForm.add(new JLabel("Chức vụ:"));
+		pnForm.add(tfChucVu);
+		pnForm.add(new JLabel("Lương:"));
+		pnForm.add(tfLuong);
+
+		// Nút thêm
+		JButton btnThem = new JButton("Thêm nhân viên");
+		JPanel pnBtnThem = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		pnBtnThem.add(btnThem);
+
+		// Gộp form và nút thành 1 panel
+		JPanel pnThemNV = new JPanel(new BorderLayout());
+		pnThemNV.add(pnForm, BorderLayout.NORTH);
+		pnThemNV.add(pnBtnThem, BorderLayout.CENTER);
+
+		// Đặt vào khu vực chính bên trái
+		pnTrai.add(pnThemNV, BorderLayout.NORTH);
+
+		// ---- FORM XÓA NHÂN VIÊN ----
+		JPanel pnXoaNV = new JPanel(new BorderLayout());
+		pnXoaNV.setBorder(BorderFactory.createTitledBorder("Xóa nhân viên"));
+
+		JTextField tfXoaMaNV = new JTextField();
+		JButton btnXoa = new JButton("Xóa");
+
+		pnXoaNV.add(new JLabel("Mã nhân viên:"), BorderLayout.NORTH);
+		pnXoaNV.add(tfXoaMaNV, BorderLayout.CENTER);
+		pnXoaNV.add(btnXoa, BorderLayout.SOUTH);
+
+		pnTrai.add(pnXoaNV, BorderLayout.SOUTH);
+
+		// ========== KHU VỰC PHẢI: BẢNG DANH SÁCH NHÂN VIÊN ==========
+		JPanel pnPhai = new JPanel(new BorderLayout());
+		pnPhai.setBorder(BorderFactory.createTitledBorder("Danh sách nhân viên"));
+
+		String[] cols = { "Mã NV", "Tên NV", "Ngày sinh", "Giới tính", "Địa chỉ", "SĐT", "Chức vụ", "Lương" };
+
+		DefaultTableModel modelNV = new DefaultTableModel(cols, 0);
+		JTable tblNV = new JTable(modelNV);
+		JScrollPane scrollNV = new JScrollPane(tblNV);
+
+		// Đặt bảng vào panel phải
+		pnPhai.add(scrollNV, BorderLayout.CENTER);
+
+		// ========== GỘP 2 PHẦN TRÁI - PHẢI BẰNG SPLITPANE ==========
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, pnTrai, pnPhai);
+		splitPane.setResizeWeight(0.4);
+
+		// Thêm SplitPane vào chính giữa giao diện
+		panel_QLNV.add(splitPane, BorderLayout.CENTER);
+
+		// Thêm panel QLNV vào
+
+		pnQuanLyNhanVien.add(panel_QLNV);
+		// Cập nhật lại giao diện
+		pnQuanLyNhanVien.revalidate();
+		pnQuanLyNhanVien.repaint();
+	}
+
+// giao diện quản lý sản phẩm
+	public void taoQuanLySanPham() {
+		// các nút là text field
+		bSave = new JButton("Lưu");
+		add = new JButton("Thêm");
+		remove = new JButton("Xóa");
+		textMaSP = new JTextField(10);
+		textMaSP_Xoa = new JTextField(10);
+		textTenSP = new JTextField(10);
+		textSLSP = new JTextField(10);
+		textGiaSP = new JTextField(10);
+		textAnhSP = new JTextField(10);
+		nutSerach = new JButton("Tìm kiếm");
+		//
+		//
+		JPanel quanLiSanPHam = new JPanel();
+		quanLiSanPHam.setPreferredSize(new Dimension(975, 550));
+		quanLiSanPHam.setLayout(new BorderLayout());
+		quanLiSanPHam.setBorder(BorderFactory.createTitledBorder("Quản lí sản phẩm"));
+		// thanh tiềm kiếm sản phẩm
+		JPanel panelSearch = new JPanel();
+		panelSearch.setLayout(new FlowLayout());
+		panelSearch.setBorder(BorderFactory.createTitledBorder("Tìm kiếm sản phẩm"));
+		JTextField boxSearch = new JTextField(20);
+		panelSearch.add(boxSearch);
+		panelSearch.add(nutSerach);
+
+		quanLiSanPHam.add(panelSearch, BorderLayout.NORTH);
+
+		// bảng thông tin các loại sản phẩm toàn kho;
+		JPanel panelBangThongTinSP = new JPanel();
+		panelBangThongTinSP.setLayout(new BorderLayout());
+		quanLiSanPHam.add(panelBangThongTinSP, BorderLayout.CENTER);
+
+		JPanel panelBangThongTinSP1 = new JPanel();
+		panelBangThongTinSP.setLayout(new BorderLayout());
+		panelBangThongTinSP.add(panelBangThongTinSP1, BorderLayout.CENTER);
+		panelBangThongTinSP.setBorder(BorderFactory.createTitledBorder("Thông tin các loại sản phẩm"));
+		String[] thongtinCacCot = { "Mã Sản Phẩm", "Tên Sản Phẩm", "Số lượng Tồn Kho", "Giá Niêm Yết", "Hình ảnh" };
+		String[][] data = { { "0011", "Coca", "1000", "10000", "Chưa cập nhật" } };
+		// không cho chỉnh sửa cột mã
+		DefaultTableModel ttCOT = new DefaultTableModel(data, thongtinCacCot) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return column != 0;
+			}
+		};
+		JTable tableBangThongTinSP = new JTable(ttCOT);
+		JScrollPane scrollChiTiet = new JScrollPane(tableBangThongTinSP);
+		panelBangThongTinSP1.add(scrollChiTiet);
+
+		//
+		JPanel panelBangThongTinSP2 = new JPanel();
+		panelBangThongTinSP2.setLayout(new FlowLayout());
+		panelBangThongTinSP.add(panelBangThongTinSP2, BorderLayout.SOUTH);
+		panelBangThongTinSP2.add(bSave);
+
+		// bảng quản lí chức năng sản phẩm
+		JPanel panelQlFunction = new JPanel();
+		panelQlFunction.setLayout(new BoxLayout(panelQlFunction, BoxLayout.Y_AXIS));
+		quanLiSanPHam.add(panelQlFunction, BorderLayout.WEST);
+
+		//
+		JPanel pnADDRe1 = new JPanel();
+		pnADDRe1.setLayout(new GridLayout(2, 1));
+		pnADDRe1.setBorder(BorderFactory.createTitledBorder("Thêm Sản Phẩm"));
+		panelQlFunction.add(pnADDRe1);
+
+		JPanel pnADDRe11 = new JPanel();
+		pnADDRe11.setLayout(new GridLayout(5, 2));
+		pnADDRe1.add(pnADDRe11);
+		pnADDRe11.add(new JLabel("Mã Sản Phẩm:"));
+		pnADDRe11.add(textMaSP);
+		pnADDRe11.add(new JLabel("Tên Sản Phẩm:"));
+		pnADDRe11.add(textTenSP);
+		pnADDRe11.add(new JLabel("Số Lượng:"));
+		pnADDRe11.add(textSLSP);
+		pnADDRe11.add(new JLabel("Giá Sản Phẩm:"));
+		pnADDRe11.add(textGiaSP);
+		pnADDRe11.add(new JLabel("Ảnh Sản Phẩm:"));
+		pnADDRe11.add(textAnhSP);
+
+		JPanel pnADDRe12 = new JPanel();
+		pnADDRe12.setLayout(new FlowLayout());
+		pnADDRe1.add(pnADDRe12);
+		pnADDRe12.add(add);
+		//
+		JPanel pnADDRe2 = new JPanel();
+		pnADDRe2.setLayout(new GridLayout(2, 1));
+		pnADDRe2.setBorder(BorderFactory.createTitledBorder("Xóa Sản Phẩm"));
+		panelQlFunction.add(pnADDRe2);
+
+		JPanel pnADDRe21 = new JPanel();
+		pnADDRe21.setLayout(new GridLayout(2, 1));
+		pnADDRe2.add(pnADDRe21);
+		pnADDRe21.add(new JLabel("Mã Sản Phẩm:"));
+		pnADDRe21.add(textMaSP_Xoa);
+
+		JPanel pnADDRe22 = new JPanel();
+		pnADDRe22.setLayout(new FlowLayout());
+		pnADDRe2.add(pnADDRe22);
+		pnADDRe22.add(remove);
+		//
+		pnQuanLySanPham.removeAll();
+		pnQuanLySanPham.add(quanLiSanPHam, BorderLayout.CENTER);
+		pnQuanLySanPham.revalidate();
+		pnQuanLySanPham.repaint();
+		//
+		bSave.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Dữ liệu đã được lưu", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+
+			}
+		});
+
+	}
+
+	public static void main(String[] args) {
+		new GiaoDienChinh();
+	}
+}
