@@ -75,17 +75,17 @@ public class QLSanPhamView {
 		};
 		 SanPhamController controller = new SanPhamController();
 	     
-		List<SanPham> data = controller.hienThiTatCaSanPham();
-		for (SanPham sp : data) {
-		    Object[] row = {
-		        sp.getMaSP(),
-		        sp.getTenSP(),
-		        sp.getTonKho(),
-		        sp.getDonGia(),
-		        sp.getXuatXu()
-		    };
-		    ttCOT.addRow(row);
-		}
+//		List<SanPham> data = controller.hienThiTatCaSanPham();
+//		for (SanPham sp : data) {
+//		    Object[] row = {
+//		        sp.getMaSP(),
+//		        sp.getTenSP(),
+//		        sp.getTonKho(),
+//		        sp.getDonGia(),
+//		        sp.getXuatXu()
+//		    };
+//		    ttCOT.addRow(row);
+//		}
 		tableBangThongTinSP = new JTable(ttCOT);
 		scrollThongTinSP = new JScrollPane(tableBangThongTinSP);
 		panelBangThongTinSP1.add(scrollThongTinSP);

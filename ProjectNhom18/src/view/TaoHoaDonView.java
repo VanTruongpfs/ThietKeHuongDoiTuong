@@ -162,4 +162,11 @@ public class TaoHoaDonView {
     public JPanel TaoHoaDon(){
         return pnTaoDon;
     }
+	public JButton getBtnHuy() {
+		return btnHuy;
+	}
+	public void setBtnHuy(JButton btnHuy) {
+		this.btnHuy = btnHuy;
+	}
+    
 }

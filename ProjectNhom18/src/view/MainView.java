@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import utils.DBConnection;
 
 public class MainView extends JFrame {
-    private JPanel contentPane;
+    private JPanel pnContainer;
     private CardLayout cardLayout;
     private JMenuBar menubar;
     private JMenu mnHoaDon, mnQuanLiHeThong;
@@ -29,9 +29,10 @@ public class MainView extends JFrame {
         setTitle("Quản lý cửa hàng");
         setSize(1000, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        // contentPane = new JPanel();
+        pnContainer = new JPanel();
         cardLayout = new CardLayout();
-        getContentPane().setLayout(cardLayout);
+        setContentPane(pnContainer);
+        pnContainer.setLayout(cardLayout);
         menubar = new JMenuBar();
         mnHoaDon = new JMenu("Tạo hóa đơn");
         mnQuanLiHeThong = new JMenu("Chức năng quản lý");
@@ -53,16 +54,16 @@ public class MainView extends JFrame {
         qlspView = new QLSanPhamView();
         taoHoaDonView = new TaoHoaDonView();
 
-        getContentPane().add(qlhdView.QLHD(), "QLHoaDon");
-        getContentPane().add(qlnvView.QLNV(), "QLNhanVien");
-        getContentPane().add(qlspView.QLSP(), "QLSanPham");
-        getContentPane().add(qlkhView.QLKH(), "QLKhachHang");
-        getContentPane().add(taoHoaDonView.TaoHoaDon(), "TaoDon");
+        pnContainer.add(qlhdView.QLHD(), "QLHoaDon");
+        pnContainer.add(qlnvView.QLNV(), "QLNhanVien");
+        pnContainer.add(qlspView.QLSP(), "QLSanPham");
+        pnContainer.add(qlkhView.QLKH(), "QLKhachHang");
+        pnContainer.add(taoHoaDonView.TaoHoaDon(), "TaoDon");
         
         mnHoaDon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                cardLayout.show(getContentPane(), "TaoDon");
+                cardLayout.show(pnContainer, "TaoDon");
             }
         });
         mniQuanLyHoaDon.addActionListener(e -> cardLayout.show(getContentPane(), "QLHoaDon"));
@@ -74,8 +75,68 @@ public class MainView extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+    
+    public void showCard(String name) {
+        cardLayout.show(getContentPane(), name);
+    }
+    
+    public JPanel getPnContainer() {
+		return pnContainer;
+	}
 
-    public static void main(String[] args) {
+	public CardLayout getCardLayout() {
+		return cardLayout;
+	}
+
+	public JMenuBar getMenubar() {
+		return menubar;
+	}
+
+	public JMenu getMnHoaDon() {
+		return mnHoaDon;
+	}
+
+	public JMenu getMnQuanLiHeThong() {
+		return mnQuanLiHeThong;
+	}
+
+	public JMenuItem getMniQuanLyHoaDon() {
+		return mniQuanLyHoaDon;
+	}
+
+	public JMenuItem getMniQuanLySanPham() {
+		return mniQuanLySanPham;
+	}
+
+	public JMenuItem getMniQuanLyNhanVien() {
+		return mniQuanLyNhanVien;
+	}
+
+	public JMenuItem getMniQuanLiKhachHang() {
+		return mniQuanLiKhachHang;
+	}
+
+	public QLHDView getQlhdView() {
+		return qlhdView;
+	}
+
+	public QLKHView getQlkhView() {
+		return qlkhView;
+	}
+
+	public QLNVView getQlnvView() {
+		return qlnvView;
+	}
+
+	public QLSanPhamView getQlspView() {
+		return qlspView;
+	}
+
+	public TaoHoaDonView getTaoHoaDonView() {
+		return taoHoaDonView;
+	}
+
+	public static void main(String[] args) {
         new MainView();
     }
 }
