@@ -2,5 +2,5 @@ package model;
 
 public interface PTPAY {
 	public boolean thanhToan();
-	public double pay();
+	public double pay(double tien);
 }

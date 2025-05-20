@@ -1,11 +1,10 @@
 package model;
 
 public class TheNganHang implements PTPAY {
-	private String maTNH;
 	
-	public TheNganHang(String maTNH) {
+	
+	public TheNganHang() {
 		super();
-		this.maTNH = maTNH;
 	}
 
 	@Override
@@ -15,9 +14,8 @@ public class TheNganHang implements PTPAY {
 	}
 
 	@Override
-	public double pay() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double pay(double tien) {
+		return tien*= 1.02 ;
 	}
 
 }

@@ -1,11 +1,9 @@
 package model;
 
 public class ChuyenKhoan implements PTPAY {
-	private String thongTinTaiKhoan;
 	
-	public ChuyenKhoan(String thongTinTaiKhoan) {
+	public ChuyenKhoan() {
 		super();
-		this.thongTinTaiKhoan = thongTinTaiKhoan;
 	}
 
 	@Override
@@ -15,9 +13,9 @@ public class ChuyenKhoan implements PTPAY {
 	}
 
 	@Override
-	public double pay() {
+	public double pay(double tien) {
 		// TODO Auto-generated method stub
-		return 0;
+		return tien;
 	}
 
 }

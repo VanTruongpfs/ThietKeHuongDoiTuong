@@ -15,13 +15,16 @@ public class SanPham {
         this.tonKho = tonKho;
         this.xuatXu = xuatXu;
     }
-
-   
     public String getMaSP() { return maSP; }
     public String getTenSP() { return tenSP; }
     public double getDonGia() { return donGia; }
     public int getTonKho() { return tonKho; }
     public String getXuatXu() { return xuatXu; }
-
+    
+    
+    public void capNhatSL(int sl) {
+    	this.tonKho+=sl;
+    }
+    
    
 }

@@ -2,8 +2,8 @@ package model;
 
 public class KhachHangBinhThuong extends KhachHang {
 
-	public KhachHangBinhThuong(String maKH, String tenKH, String sdt, String diachi, HoaDon hoadon) {
-		super(maKH, tenKH, sdt, diachi, hoadon);
+	public KhachHangBinhThuong(String maKH, String tenKH, String sdt, String diachi, Boolean loaiKH) {
+		super(maKH, tenKH, sdt, diachi, loaiKH);
 	}
 
 	@Override

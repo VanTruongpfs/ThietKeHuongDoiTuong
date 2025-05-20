@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="view.TaoHoaDonView"/>
     <fullyQualifiedTypeName name="Controller.MainController"/>
-    <fullyQualifiedTypeName name="model.CuaHang"/>
-    <fullyQualifiedTypeName name="view.MainView"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="Controller.TaoHoaDonController"/>
+    <fullyQualifiedTypeName name="view.TaoHoaDonView"/>
+    <fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
+    <fullyQualifiedTypeName name="utils.DBConnection"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="model.SanPham"/>
+    <fullyQualifiedTypeName name="view.MainView"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.x.protobuf.MysqlxCrud.Update"/>
+    <fullyQualifiedTypeName name="model.KhachHang"/>
+    <fullyQualifiedTypeName name="model.KhachHangThanThiet"/>
+    <fullyQualifiedTypeName name="java.lang.Boolean"/>
+    <fullyQualifiedTypeName name="view.QLKHView"/>
+    <fullyQualifiedTypeName name="Controller.KhachHangController"/>
+    <fullyQualifiedTypeName name="java.util.Observable"/>
+    <fullyQualifiedTypeName name="java.util.Observer"/>
+    <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.lang.Math"/>
+    <fullyQualifiedTypeName name="model.TienMat"/>
+    <fullyQualifiedTypeName name="model.PTPAY"/>
+    <fullyQualifiedTypeName name="model.ThanhToan"/>
+    <fullyQualifiedTypeName name="model.ChuyenKhoan"/>
+    <fullyQualifiedTypeName name="model.TheNganHang"/>
+    <fullyQualifiedTypeName name="view.QLSanPhamView"/>
+    <fullyQualifiedTypeName name="Controller.SanPhamController"/>
+    <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+    <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+    <fullyQualifiedTypeName name="java.lang.Double"/>
+    <fullyQualifiedTypeName name="model.CuaHang"/>
+    <fullyQualifiedTypeName name="model.HoaDon"/>
 </qualifiedTypeNameHistroy>

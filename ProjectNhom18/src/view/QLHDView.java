@@ -25,6 +25,7 @@ public class QLHDView {
     JButton statsButton, searchButton;
     JTextField searchField;
     DefaultTableModel model;
+    JScrollPane tableScrollPane;
     JTable table;
     JSplitPane splitPaneHD;
     JTextField tfNgay, tfThang, tfNam;
@@ -68,11 +69,11 @@ public class QLHDView {
     searchPanel.add(searchButton, BorderLayout.EAST);
     searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-    String[] columns = { "Mã HD", "Thời gian lập", "Mã NV", "Tên NV", "Tổng tiền", "Tiền khách đưa", "Tiền thừa", "PT Thanh toán" };
+    String[] columns = { "Mã HD", "Thời gian lập", "Mã KH", "Tên NV", "Tổng tiền", "PT Thanh toán" };
     model = new DefaultTableModel(columns, 0);
     table = new JTable(model);
     table.setFillsViewportHeight(true);
-    JScrollPane tableScrollPane = new JScrollPane(table);
+    tableScrollPane = new JScrollPane(table);
 
     rightPanel.add(searchPanel, BorderLayout.NORTH);
     rightPanel.add(tableScrollPane, BorderLayout.CENTER);

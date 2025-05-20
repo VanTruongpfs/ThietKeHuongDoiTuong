@@ -9,9 +9,8 @@ public class TienMat implements PTPAY {
 	}
 
 	@Override
-	public double pay() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double pay(double tien) {
+		return Math.round(tien);
 	}
 
 }

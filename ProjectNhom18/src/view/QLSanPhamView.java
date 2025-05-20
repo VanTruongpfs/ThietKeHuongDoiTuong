@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.SanPhamController;
+import model.CuaHang;
 import model.SanPham;
 
 public class QLSanPhamView {
@@ -25,6 +27,7 @@ public class QLSanPhamView {
            pnADDRe2, pnADDRe21, pnADDRe22;
     JButton bSave, add, remove, nutSerach;
     JTextField textMaSP, textMaSP_Xoa, textTenSP, textSLSP, textGiaSP, textAnhSP, boxSearch;
+    DefaultTableModel ttCOT;
     JTable tableBangThongTinSP;
     JScrollPane scrollThongTinSP;
     public QLSanPhamView() {
@@ -64,28 +67,16 @@ public class QLSanPhamView {
 		panelBangThongTinSP.setLayout(new BorderLayout());
 		panelBangThongTinSP.add(panelBangThongTinSP1, BorderLayout.CENTER);
 		panelBangThongTinSP.setBorder(BorderFactory.createTitledBorder("Thông tin các loại sản phẩm"));
-		String[] thongtinCacCot = { "Mã Sản Phẩm", "Tên Sản Phẩm", "Số lượng Tồn Kho", "Giá Niêm Yết", "Xuất xứ" };
-	
+		String[] thongtinCacCot = { "Mã Sản Phẩm", "Tên Sản Phẩm","Giá", "Số lượng", "Xuất xứ" };
+		
 		// không cho chỉnh sửa cột mã
-		DefaultTableModel ttCOT = new DefaultTableModel(thongtinCacCot,0) {
+		ttCOT = new DefaultTableModel(thongtinCacCot,0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return column != 0;
 			}
 		};
-		 SanPhamController controller = new SanPhamController();
 	     
-//		List<SanPham> data = controller.hienThiTatCaSanPham();
-//		for (SanPham sp : data) {
-//		    Object[] row = {
-//		        sp.getMaSP(),
-//		        sp.getTenSP(),
-//		        sp.getTonKho(),
-//		        sp.getDonGia(),
-//		        sp.getXuatXu()
-//		    };
-//		    ttCOT.addRow(row);
-//		}
 		tableBangThongTinSP = new JTable(ttCOT);
 		scrollThongTinSP = new JScrollPane(tableBangThongTinSP);
 		panelBangThongTinSP1.add(scrollThongTinSP);
@@ -150,4 +141,93 @@ public class QLSanPhamView {
     public JPanel QLSP(){
         return pnQuanLySanPham;
     }
+	public DefaultTableModel getTtCOT() {
+		return ttCOT;
+	}
+	public void setTtCOT(DefaultTableModel ttCOT) {
+		this.ttCOT = ttCOT;
+	}
+	public JButton getbSave() {
+		return bSave;
+	}
+	public void setbSave(JButton bSave) {
+		this.bSave = bSave;
+	}
+	public JPanel getPnQuanLySanPham() {
+		return pnQuanLySanPham;
+	}
+	public JPanel getQuanLiSanPHam() {
+		return quanLiSanPHam;
+	}
+	public JPanel getPanelSearch() {
+		return panelSearch;
+	}
+	public JPanel getPanelBangThongTinSP() {
+		return panelBangThongTinSP;
+	}
+	public JPanel getPanelBangThongTinSP1() {
+		return panelBangThongTinSP1;
+	}
+	public JPanel getPanelBangThongTinSP2() {
+		return panelBangThongTinSP2;
+	}
+	public JPanel getPanelQlFunction() {
+		return panelQlFunction;
+	}
+	public JPanel getPnADDRe1() {
+		return pnADDRe1;
+	}
+	public JPanel getPnADDRe11() {
+		return pnADDRe11;
+	}
+	public JPanel getPnADDRe12() {
+		return pnADDRe12;
+	}
+	public JPanel getPnADDRe2() {
+		return pnADDRe2;
+	}
+	public JPanel getPnADDRe21() {
+		return pnADDRe21;
+	}
+	public JPanel getPnADDRe22() {
+		return pnADDRe22;
+	}
+	public JButton getAdd() {
+		return add;
+	}
+	public JButton getRemove() {
+		return remove;
+	}
+	public JButton getNutSerach() {
+		return nutSerach;
+	}
+	public JTextField getTextMaSP() {
+		return textMaSP;
+	}
+	public JTextField getTextMaSP_Xoa() {
+		return textMaSP_Xoa;
+	}
+	public JTextField getTextTenSP() {
+		return textTenSP;
+	}
+	public JTextField getTextSLSP() {
+		return textSLSP;
+	}
+	public JTextField getTextGiaSP() {
+		return textGiaSP;
+	}
+	public JTextField getTextAnhSP() {
+		return textAnhSP;
+	}
+	public JTextField getBoxSearch() {
+		return boxSearch;
+	}
+	public JTable getTableBangThongTinSP() {
+		return tableBangThongTinSP;
+	}
+	public JScrollPane getScrollThongTinSP() {
+		return scrollThongTinSP;
+	}
+	
+    
 }

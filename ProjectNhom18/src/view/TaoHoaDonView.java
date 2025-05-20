@@ -26,7 +26,7 @@ public class TaoHoaDonView {
     JPanel pnTraiTD, pnPhaiTD, pnThanhToan, pnThongTin, pnThaoTac, ptPanel, pnNut, pnDuoiTrai, pnTimKiem;
     JTextField tfMaHD, tfNgayLap, tfSDT, tfTongTien, tfTienKhach, tfTimKiem;
     JTable tblChiTiet, tblMenu;
-    DefaultTableModel modelChiTiet;
+    DefaultTableModel modelChiTiet, modelKho;
     JRadioButton rdTienMat, rdChuyenKhoan, rdTheNganHang;
     ButtonGroup bgPTTT;
     JButton btnHuy, btnXuat, btnTim, btnThemSP, btnXoaSP;
@@ -51,7 +51,7 @@ public class TaoHoaDonView {
 
 		lblNgayLap = new JLabel("Ngày lập hóa đơn");
 		LocalDate date = LocalDate.now();
-		tfNgayLap = new JTextField(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear());
+		tfNgayLap = new JTextField( date.getYear() + "-" +0+""+ date.getMonthValue()+ "-" +date.getDayOfMonth() );
 
 		lblTenNV = new JLabel("Tên nhân viên");
 		String[] tenNV = { "Lê Vân Trường", "Lê Hữu Phước", "Nguyễn Gia Huy", "Trương Cao Đoàn", "Trần Nguyễn Thanh Tú",
@@ -72,7 +72,7 @@ public class TaoHoaDonView {
 		pnThongTin.add(tfSDT);
 
 		// Bảng chi tiết món
-		String[] khoSP = { "TÊN MÓN", "SỐ LƯỢNG", "ĐƠN GIÁ", "THÀNH TIỀN" };
+		String[] khoSP = { "Mã Sản Phẩm","TÊN MÓN", "SỐ LƯỢNG", "ĐƠN GIÁ", "THÀNH TIỀN" };
 		modelChiTiet = new DefaultTableModel(khoSP, 0);
 		tblChiTiet = new JTable(modelChiTiet);
 		scrollChiTiet = new JScrollPane(tblChiTiet);
@@ -126,13 +126,12 @@ public class TaoHoaDonView {
 		pnPhaiTD = new JPanel(new BorderLayout());
 		pnPhaiTD.setBorder(BorderFactory.createTitledBorder("MENU BAR"));
 
-		String[] cols = { "Tên món", "Ảnh", "Giá", "Số lượng còn lại" };
-		Object[][] data = { { "OSHI KHOAI TÂY", ".....", 25000.0, 10 }, { "SỮA VINAMILk", ".........", 30000.0, 100 },
-				{ "Xà bông", ".........", 45000.0, 20 }, { "Búa", ".........", 45000.0, 49 },
-				{ "Dao", "...........", 36000.0, 21 }, { "Pin", "..............", 35000.0, 30 } };
-		tblMenu = new JTable(new DefaultTableModel(data, cols));
+		String[] cols = { "Tên món", "Ảnh", "Giá", "Số lượng còn lại"};
+		modelKho = new QLSanPhamView().getTtCOT();
+//		modelKho = new DefaultTableModel(cols,0); 
+		tblMenu = new JTable(modelKho);
 		scrollMenu = new JScrollPane(tblMenu);
-
+		
 		tfTimKiem = new JTextField();
 		btnTim = new JButton("Tìm Kiếm");
 		pnTimKiem = new JPanel(new BorderLayout());
@@ -168,5 +167,125 @@ public class TaoHoaDonView {
 	public void setBtnHuy(JButton btnHuy) {
 		this.btnHuy = btnHuy;
 	}
-    
+	public DefaultTableModel getModelKho() {
+		return modelKho;
+	}
+	public void setModelKho(DefaultTableModel modelKho) {
+		this.modelKho = modelKho;
+	}
+	public JPanel getPnTaoDon() {
+		return pnTaoDon;
+	}
+	public JSplitPane getSplitPaneTD() {
+		return splitPaneTD;
+	}
+	public JPanel getPnTraiTD() {
+		return pnTraiTD;
+	}
+	public JPanel getPnPhaiTD() {
+		return pnPhaiTD;
+	}
+	public JPanel getPnThanhToan() {
+		return pnThanhToan;
+	}
+	public JPanel getPnThongTin() {
+		return pnThongTin;
+	}
+	public JPanel getPnThaoTac() {
+		return pnThaoTac;
+	}
+	public JPanel getPtPanel() {
+		return ptPanel;
+	}
+	public JPanel getPnNut() {
+		return pnNut;
+	}
+	public JPanel getPnDuoiTrai() {
+		return pnDuoiTrai;
+	}
+	public JPanel getPnTimKiem() {
+		return pnTimKiem;
+	}
+	public JTextField getTfMaHD() {
+		return tfMaHD;
+	}
+	public JTextField getTfNgayLap() {
+		return tfNgayLap;
+	}
+	public JTextField getTfSDT() {
+		return tfSDT;
+	}
+	public JTextField getTfTongTien() {
+		return tfTongTien;
+	}
+	public JTextField getTfTienKhach() {
+		return tfTienKhach;
+	}
+	public JTextField getTfTimKiem() {
+		return tfTimKiem;
+	}
+	public JTable getTblChiTiet() {
+		return tblChiTiet;
+	}
+	public JTable getTblMenu() {
+		return tblMenu;
+	}
+	public DefaultTableModel getModelChiTiet() {
+		return modelChiTiet;
+	}
+	public JRadioButton getRdTienMat() {
+		return rdTienMat;
+	}
+	public JRadioButton getRdChuyenKhoan() {
+		return rdChuyenKhoan;
+	}
+	public JRadioButton getRdTheNganHang() {
+		return rdTheNganHang;
+	}
+	public ButtonGroup getBgPTTT() {
+		return bgPTTT;
+	}
+	public JButton getBtnXuat() {
+		return btnXuat;
+	}
+	public JButton getBtnTim() {
+		return btnTim;
+	}
+	public JButton getBtnThemSP() {
+		return btnThemSP;
+	}
+	public JButton getBtnXoaSP() {
+		return btnXoaSP;
+	}
+	public JLabel getLblMaHD() {
+		return lblMaHD;
+	}
+	public JLabel getLblNgayLap() {
+		return lblNgayLap;
+	}
+	public JLabel getLblTongTien() {
+		return lblTongTien;
+	}
+	public JLabel getLblPTTT() {
+		return lblPTTT;
+	}
+	public JLabel getLblTenNV() {
+		return lblTenNV;
+	}
+	public JLabel getLblTienKhach() {
+		return lblTienKhach;
+	}
+	public JLabel getLblSDT() {
+		return lblSDT;
+	}
+	public JComboBox<String> getCbTenNV() {
+		return cbTenNV;
+	}
+	public JScrollPane getScrollMenu() {
+		return scrollMenu;
+	}
+	public JScrollPane getScrollChiTiet() {
+		return scrollChiTiet;
+	}
+	
 }
