@@ -136,6 +136,24 @@ public class CuaHang implements Subject{
 		        return false;
 		    }
 		}
+	 public boolean insertChiTietHoaDon(ChiTietHoaDon ct) {
+		 try {
+			 Connection cnn = DBConnection.getConnection();
+			 String sql = "INSERT INTO CHITIETHOADON (maHD, maSP, tenSP, soLuong, donGia) VALUES (?, ?, ?, ?, ?)";
+			 PreparedStatement ps = cnn.prepareStatement(sql);
+			 ps.setString(1, ct.getMaHD());
+			 ps.setString(2, ct.getMaSP());
+			 ps.setString(3, ct.getTenSP());
+			 ps.setInt(4, ct.getSoLuong());
+			 ps.setDouble(5, ct.getDongia());
+			 int rs = ps.executeUpdate();
+			 dsSP = new ArrayList<SanPham>();
+			 return rs != 0;
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			 return false;
+		 }
+	 }
 	 
 	 
 	 
@@ -206,12 +224,6 @@ public class CuaHang implements Subject{
 	}
 	public void setDsHD(List<HoaDon> dsHD) {
 		this.dsHD = dsHD;
-	}
-	public static void main(String[] args) {
-		CuaHang cuaHang = new CuaHang();
-		 
-		HoaDon hd = new HoaDon("HD119", "NV001", "KH001", "2025-05-20", 100000);
-		cuaHang.insertHoaDon(hd);
 	}
 	
 }

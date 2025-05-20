@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import com.mysql.cj.x.protobuf.MysqlxCrud.Update;
 
+import model.ChiTietHoaDon;
 import model.ChuyenKhoan;
 import model.CuaHang;
 import model.HoaDon;
@@ -234,14 +235,22 @@ public class TaoHoaDonController {
 		 view.getBtnXuat().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String maHD = String.valueOf(view.getTfMaHD());
-				String maKH=  String.valueOf(view.getTfSDT());
+				String maHD = String.valueOf(view.getTfMaHD().getText());
+				String maKH=  String.valueOf(view.getTfSDT().getText());
 				String maNV= String.valueOf(view.getCbTenNV().getSelectedItem());
 				String ngayLap= String.valueOf(view.getTfNgayLap().getText());
 				double tongTien= Double.parseDouble(String.valueOf(view.getTfTienKhach().getText()));
-				HoaDon hd = new HoaDon("HD0011", "NV001", "KH001", ngayLap, tongTien);
+				HoaDon hd = new HoaDon(maHD, "NV001", "KH001", ngayLap, tongTien);
 				model.insertHoaDon(hd);
 				tongTien=0;
+				tienKhachDua=0;
+				for (int i = 0; i < view.getTblChiTiet().getRowCount(); i++) {
+					String maSP = String.valueOf(view.getModelChiTiet().getValueAt(i, 0));
+					String tenSP = String.valueOf(view.getModelChiTiet().getValueAt(i, 1));
+					int soLuong = Integer.parseInt(String.valueOf(view.getModelChiTiet().getValueAt(i, 2)));
+					double thanhTien = Double.parseDouble(String.valueOf(view.getModelChiTiet().getValueAt(i, 4)));
+					model.insertChiTietHoaDon(new ChiTietHoaDon(maHD, maSP, tenSP, soLuong, thanhTien));
+				}
 				view.getModelChiTiet().setRowCount(0);
 				
 			}
