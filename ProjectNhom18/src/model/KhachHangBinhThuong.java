@@ -1,9 +1,11 @@
+
 package model;
 
 public class KhachHangBinhThuong extends KhachHang {
 
-	public KhachHangBinhThuong(String maKH, String tenKH, String sdt, String diachi, Boolean loaiKH) {
-		super(maKH, tenKH, sdt, diachi, loaiKH);
+	
+	public KhachHangBinhThuong(String maKH, String tenKH, String gt, String sdt, String diachi) {
+		super(maKH, tenKH, gt, sdt, diachi);
 	}
 
 	@Override

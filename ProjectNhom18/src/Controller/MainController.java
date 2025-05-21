@@ -9,14 +9,15 @@ public class MainController {
 	private CuaHang model;
 	private TaoHoaDonController tao;
 	private SanPhamController sp;
+	private KhachHangController kh;
 	public MainController(MainView view, CuaHang model) {
 		super();
 		this.view = view;
 		this.model = model;
 		tao = new TaoHoaDonController(view.getTaoHoaDonView(), model);
-		sp = new SanPhamController(view.getQlspView(), model);
+		sp = new SanPhamController(view.getQlspView(), model,tao);
+		kh = new KhachHangController(view.getQlkhView(), model);
 	}
-	
 	public static void main(String[] args) {
 		MainView view = new MainView();
 		CuaHang model = new CuaHang();
