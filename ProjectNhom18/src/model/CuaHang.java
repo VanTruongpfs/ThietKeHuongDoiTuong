@@ -8,15 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 import utils.DBConnection;
 
 public class CuaHang implements Subject {
 	private String maCH;
 	private String tenCH;
-	private List<NhanVien> dsNV;
+	private List<NhanVien> dsNV= new ArrayList<NhanVien>();
 	private List<SanPham> dsSP = new ArrayList<SanPham>();
 	private List<Observer> dsKH = new ArrayList<Observer>();
-	private List<HoaDon> dsHD;
+	private List<HoaDon> dsHD= new ArrayList<HoaDon>();
 
 	public CuaHang(String maCH, String tenCH, List<NhanVien> dsNV, List<SanPham> dsSP, List<Observer> dsKH,
 			List<HoaDon> dsHD) {
@@ -32,6 +35,7 @@ public class CuaHang implements Subject {
 	public CuaHang() {
 		laySPTuDB();
 		layKHTuDB();
+		insertNhanVienFromDB();
 	}
 
 	public void laySPTuDB() {
@@ -64,7 +68,26 @@ public class CuaHang implements Subject {
 			e.printStackTrace();
 		}
 	}
-
+	public void insertNhanVienFromDB() {
+	    try {
+	    	Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement("SELECT * FROM NHANVIEN");
+	         ResultSet rs = ps.executeQuery();
+	         dsNV.clear();
+		        while (rs.next()) {
+		            dsNV.add(new NhanVien(
+		                rs.getString("maNV"),
+		                rs.getString("tenNV"),
+		                rs.getDate("ngaySinh"),
+		                rs.getDate("ngayBDLam"),
+		                rs.getDouble("luongCB"),
+		                rs.getInt("soGioLam")
+		            ));
+		        }
+	    } catch (SQLException e) {
+	        JOptionPane.showMessageDialog(null, "Lỗi tải dữ liệu từ sql: " + e.getMessage());
+	    }
+	}
 	@Override
 	public void themOB(Observer ob) {
 
@@ -328,6 +351,8 @@ public class CuaHang implements Subject {
 	}
 
 	public List<NhanVien> getDsNV() {
+		dsNV.clear();
+		insertNhanVienFromDB();
 		return dsNV;
 	}
 
@@ -354,7 +379,8 @@ public class CuaHang implements Subject {
 	}
 
 	public static void main(String[] args) {
-		
+		CuaHang c = new CuaHang();
+		System.out.println(c.getDsNV());
 	}
 
 }
