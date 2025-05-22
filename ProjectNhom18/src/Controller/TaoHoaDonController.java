@@ -104,13 +104,31 @@ public class TaoHoaDonController {
 							JOptionPane.showConfirmDialog(null, "Số lượng còn lại không đủ");
 						} else {
 							SanPham sp = new SanPham(maSP, tenSP, gia, soLuongThem, xuatXu);
-							String[] row = { sp.getMaSP(), sp.getTenSP(), soLuongThem + "", sp.getDonGia() + "",
-									soLuongThem * sp.getDonGia() + "" };
-							view.getModelChiTiet().addRow(row);
-							tongTien += soLuongThem * sp.getDonGia();
-							view.getTfTongTien().setText(tongTien + "");
-							view.getModelKho().setValueAt(soLuongConLai - soLuongThem, selected, 3);
-							model.updateSLSP(maSP, -soLuongThem);
+							boolean flag = false;
+							for (int i = 0; i < view.getTblChiTiet().getRowCount(); i++) {
+								if(String.valueOf(view.getModelChiTiet().getValueAt(i, 0)).equals(sp.getMaSP())) {
+									int soLuongTrongBill = Integer.parseInt((String) view.getModelChiTiet().getValueAt(i, 2));
+									view.getModelChiTiet().setValueAt(soLuongThem+ soLuongTrongBill+"", i, 2);
+									view.getModelChiTiet().setValueAt((soLuongThem+ soLuongTrongBill)*sp.getDonGia(), i, 4);
+									view.getModelKho().setValueAt(soLuongConLai - soLuongThem, selected, 3);
+									model.updateSLSP(maSP, -soLuongThem);
+									tongTien += soLuongThem * sp.getDonGia();
+									view.getTfTongTien().setText(tongTien + "");
+									flag = true;
+									hienThiSP();
+								}
+							}
+							if(!flag) {
+								String[] row = { sp.getMaSP(), sp.getTenSP(), soLuongThem + "", sp.getDonGia() + "",
+										soLuongThem * sp.getDonGia() + "" };
+								view.getModelChiTiet().addRow(row);
+								tongTien += soLuongThem * sp.getDonGia();
+								view.getTfTongTien().setText(tongTien + "");
+								view.getModelKho().setValueAt(soLuongConLai - soLuongThem, selected, 3);
+								model.updateSLSP(maSP, -soLuongThem);
+								hienThiSP();
+							}
+							
 						}
 					}
 				}
@@ -177,6 +195,8 @@ public class TaoHoaDonController {
 					soLuong = Integer.parseInt((String) view.getTblChiTiet().getValueAt(i, 2));
 					model.updateSLSP(maSP, soLuong);
 					hienThiSP();
+					tongTien=0;
+					view.getTfTongTien().setText(tongTien+"");
 				}
 				view.getModelChiTiet().setRowCount(0);
 			}

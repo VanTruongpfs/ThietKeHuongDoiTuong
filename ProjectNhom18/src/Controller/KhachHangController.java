@@ -104,6 +104,7 @@ public class KhachHangController {
 		for (Observer observer : model.getDsKH()) {
 			if (observer instanceof KhachHangThanThiet) {
 				KhachHangThanThiet kh = (KhachHangThanThiet) observer;
+				
 				String[] row = { kh.getMaKH(), kh.getTenKH(), kh.getGt(), kh.getSdt(), kh.getDiachi(),
 						kh.getDiemTichLuy() + "" };
 				view.getModelKH().addRow(row);
@@ -123,25 +124,22 @@ public class KhachHangController {
 
 		int confirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng có mã: " + maKH + "?",
 				"Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-
 		if (confirm == JOptionPane.YES_OPTION) {
 			int count = 0;
 			for (Observer observer : model.getDsKH()) {
 				KhachHangThanThiet kh = (KhachHangThanThiet) observer;
 				if (kh.getMaKH().equals(maKH)) {
-					model.xoaKH(maKH);
-					JOptionPane.showMessageDialog(null, "Đã xóa thành công");
-					count++;
-					capNhatBang();
+					if (model.xoaKH(maKH)) {
+					    model.getDsKH(); // Cập nhật danh sách
+					    JOptionPane.showMessageDialog(null, "Đã xóa thành công");
+					    capNhatBang();
+					} else {
+					    JOptionPane.showMessageDialog(null, "Không thể xóa khách hàng.");
+					}
 					break;
 				}
 			}
-			if (count == 0) {
-				JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng!");
-			}
-
 		}
-		capNhatBang();
 	}
 
 	private boolean kiemTraThongTin(String ma, String ten, String dc, String sdt, String diem) {

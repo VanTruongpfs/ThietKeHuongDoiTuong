@@ -24,9 +24,6 @@ public class MainController {
 		
 	}
 	
-	
-
-
 	public static void main(String[] args) {
 		MainView view = new MainView();
 		CuaHang model = new CuaHang();

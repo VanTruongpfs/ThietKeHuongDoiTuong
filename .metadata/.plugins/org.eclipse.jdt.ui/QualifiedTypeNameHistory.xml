@@ -29,7 +29,6 @@
     <fullyQualifiedTypeName name="Controller.SanPhamController"/>
     <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
     <fullyQualifiedTypeName name="model.HoaDon"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="java.lang.Double"/>
     <fullyQualifiedTypeName name="model.ChiTietHoaDon"/>
     <fullyQualifiedTypeName name="java.util.List"/>
@@ -40,4 +39,5 @@
     <fullyQualifiedTypeName name="model.CuaHang"/>
     <fullyQualifiedTypeName name="javax.swing.JButton"/>
     <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
 </qualifiedTypeNameHistroy>
