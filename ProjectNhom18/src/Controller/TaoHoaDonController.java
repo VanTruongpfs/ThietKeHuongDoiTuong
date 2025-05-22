@@ -4,10 +4,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,6 +24,8 @@ import model.ChiTietHoaDon;
 import model.ChuyenKhoan;
 import model.CuaHang;
 import model.HoaDon;
+import model.KhachHang;
+import model.NhanVien;
 import model.SanPham;
 import model.ThanhToan;
 import model.TheNganHang;
@@ -34,7 +40,8 @@ public class TaoHoaDonController {
 	private double tongTien = 0;
 	private double tienKhachDua;
 	private QLSanPhamView sp;
-
+	private MainController main;
+	
 	public TaoHoaDonController(TaoHoaDonView view, CuaHang model) {
 		this.view = view;
 		this.model = model;
@@ -236,18 +243,50 @@ public class TaoHoaDonController {
 			}
 		});
 	}
+	public static String randomCode(int length) {
+	    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	    StringBuilder sb = new StringBuilder();
+	    Random rnd = new Random();
+	    for (int i = 0; i < length; i++) {
+	        sb.append(chars.charAt(rnd.nextInt(chars.length())));
+	    }
+	    return sb.toString();
+	}
+    public static String taoMaHoaDon() {
+        // Lấy ngày hiện tại theo định dạng ddMMyy
+        String ngay = new SimpleDateFormat("ddMMyy").format(new java.util.Date());
 
+        // Tạo chuỗi random 4 ký tự gồm số và chữ in hoa
+        String randomStr = randomCode(4);
+
+        // Kết hợp thành mã hoá đơn
+        return "HD" + ngay + "_" + randomStr;
+    }
 	// xuất hóa đơn
 	public void xuatHoaDon() {
 		view.getBtnXuat().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String maHD = String.valueOf(view.getTfMaHD().getText());
-				String maKH = String.valueOf(view.getTfSDT().getText());
-				String maNV = String.valueOf(view.getCbTenNV().getSelectedItem());
-				String ngayLap = String.valueOf(view.getTfNgayLap().getText());
+				String maHD = taoMaHoaDon();
+				String sdtKH = String.valueOf(view.getTfSDT().getText());
+				String tenNV = String.valueOf(view.getCbTenNV().getSelectedItem());
+				Date ngayLap = java.sql.Date.valueOf(view.getTfNgayLap().getText());
+				String pt="";
+				if (view.getRdTienMat().isSelected()) {
+					pt = view.getRdTienMat().getText();
+				} else if (view.getRdChuyenKhoan().isSelected()) {
+				    pt = view.getRdChuyenKhoan().getText();
+				} else if (view.getRdTheNganHang().isSelected()) {
+				    pt = view.getRdTheNganHang().getText();
+				}
 				double tongTien = Double.parseDouble(String.valueOf(view.getTfTienKhach().getText()));
-				HoaDon hd = new HoaDon(maHD, "NV001", "KH001", ngayLap, tongTien);
+				NhanVien nv = model.timNhanVienTheoTen(tenNV);
+				KhachHang kh = model.timKhachHangTheoSDT(sdtKH);
+				if (kh == null) {
+					JOptionPane.showMessageDialog(view.TaoHoaDon(), "Không tìm thấy khách hàng có số điện thoại: " + sdtKH);
+					return;
+				}
+				HoaDon hd = new HoaDon(maHD, nv.getMaNV(),kh.getMaKH(), ngayLap, tongTien,pt);
 				model.insertHoaDon(hd);
 				tongTien = 0;
 				tienKhachDua = 0;
@@ -259,7 +298,7 @@ public class TaoHoaDonController {
 					model.insertChiTietHoaDon(new ChiTietHoaDon(maHD, maSP, tenSP, soLuong, thanhTien));
 				}
 				view.getModelChiTiet().setRowCount(0);
-
+				
 			}
 		});
 	}

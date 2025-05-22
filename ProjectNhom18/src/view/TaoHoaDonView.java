@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -19,7 +20,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
+import model.CuaHang;
+import model.NhanVien;
 public class TaoHoaDonView {
     JPanel pnTaoDon = new JPanel();
     JSplitPane splitPaneTD;
@@ -46,24 +48,29 @@ public class TaoHoaDonView {
 		pnThongTin.setBorder(BorderFactory.createTitledBorder("HÓA ĐƠN BÁN LẺ"));
 
 		// Các trường nhập liệu (tạo trước)
-		lblMaHD = new JLabel("Mã hóa đơn");
-		tfMaHD = new JTextField("HD002");
+//		lblMaHD = new JLabel("Mã hóa đơn");
+//		tfMaHD = new JTextField("HD002");
 
 		lblNgayLap = new JLabel("Ngày lập hóa đơn");
 		LocalDate date = LocalDate.now();
-		tfNgayLap = new JTextField( date.getYear() + "-" +0+""+ date.getMonthValue()+ "-" +date.getDayOfMonth() );
+		tfNgayLap = new JTextField( date.getYear() + "-"+""+ date.getMonthValue()+ "-" +date.getDayOfMonth() );
 
 		lblTenNV = new JLabel("Tên nhân viên");
-		String[] tenNV = { "Lê Vân Trường", "Lê Hữu Phước", "Nguyễn Gia Huy", "Trương Cao Đoàn", "Trần Nguyễn Thanh Tú",
-				"Nguyễn Trọng Tín" };
+		
+		CuaHang ch = new CuaHang();
+		List<NhanVien> dsNV = ch.getDsNV();
+		String[] tenNV = new String[dsNV.size()];
+		for (int i = 0; i < dsNV.size(); i++) {
+		    tenNV[i] = dsNV.get(i).getTenNV();
+		}
 		cbTenNV = new JComboBox<>(tenNV);
 
 		lblSDT = new JLabel("SDT khách hàng");
 		tfSDT = new JTextField();
 
 		// Thêm vào panel thông tin
-		pnThongTin.add(lblMaHD);
-		pnThongTin.add(tfMaHD);
+//		pnThongTin.add(lblMaHD);
+//		pnThongTin.add(tfMaHD);
 		pnThongTin.add(lblNgayLap);
 		pnThongTin.add(tfNgayLap);
 		pnThongTin.add(lblTenNV);

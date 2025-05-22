@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.util.List;
 
 public class HoaDon {
@@ -7,25 +8,19 @@ public class HoaDon {
 	private String maKH;
 	private String maNV;
 	private List<SanPham> dsSP;
-	private String ngayLapHD;
+	private Date ngayLapHD;
 	private ThanhToan phuongthucPay;
 	private boolean tinhTrangHD;
 	private double tongTien;
-	public HoaDon(String maHD, String maKH, List<SanPham> dsSP,String ngayLapHD, ThanhToan phuongthucPay, boolean tinhTrangHD) {
-		super();
-		this.maHD = maHD;
-		this.maKH = maKH;
-		this.dsSP = dsSP;
-		this.ngayLapHD = ngayLapHD;
-		this.phuongthucPay = phuongthucPay;
-		this.tinhTrangHD = tinhTrangHD;
-	}
-	public HoaDon(String maHD, String maNV, String maKH, String ngayLap, double tongTien) {
+	private String PT;
+
+	public HoaDon(String maHD, String maNV, String maKH, Date date, double tongTien,String PT) {
 		this.maHD = maHD;
 		this.maNV = maNV;
 		this.maKH = maKH;
-		this.ngayLapHD = ngayLap;
+		this.ngayLapHD = date;
 		this.tongTien = tongTien;
+		this.PT=PT;
 	}
 	public String getMaHD() {
 		return maHD;
@@ -39,7 +34,7 @@ public class HoaDon {
 	public List<SanPham> getDsSP() {
 		return dsSP;
 	}
-	public String getNgayLapHD() {
+	public Date getNgayLapHD() {
 		return ngayLapHD;
 	}
 	public ThanhToan getPhuongthucPay() {
@@ -51,6 +46,12 @@ public class HoaDon {
 	
 	public double tongTien() {
 		return tongTien;
+	}
+	public String getPT() {
+		return PT;
+	}
+	public void setPT(String pT) {
+		PT = pT;
 	}
 	
 	

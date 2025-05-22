@@ -11,6 +11,7 @@ public class MainController {
 	private SanPhamController sp;
 	private KhachHangController kh;
 	private NhanVienController nv;
+	private HoaDonController hd;
 	public MainController(MainView view, CuaHang model) {
 		super();
 		this.view = view;
@@ -19,7 +20,13 @@ public class MainController {
 		sp = new SanPhamController(view.getQlspView(), model,tao);
 		kh = new KhachHangController(view.getQlkhView(), model);
 		nv = new NhanVienController(view.getQlnvView(), model);
+		hd = new HoaDonController(view.getQlhdView(), model);
+		
 	}
+	
+	
+
+
 	public static void main(String[] args) {
 		MainView view = new MainView();
 		CuaHang model = new CuaHang();

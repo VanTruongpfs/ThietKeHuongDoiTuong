@@ -18,4 +18,10 @@ public class ChuyenKhoan implements PTPAY {
 		return tien;
 	}
 
+	@Override
+	public String getPT() {
+		// TODO Auto-generated method stub
+		return "Chuyển Khoản";
+	}
+
 }

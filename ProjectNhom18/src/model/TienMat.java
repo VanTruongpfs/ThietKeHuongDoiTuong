@@ -13,4 +13,10 @@ public class TienMat implements PTPAY {
 		return Math.round(tien);
 	}
 
+	@Override
+	public String getPT() {
+		// TODO Auto-generated method stub
+		return "Tiền mặt";
+	}
+
 }

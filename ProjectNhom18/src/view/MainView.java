@@ -67,6 +67,7 @@ public class MainView extends JFrame {
             }
         });
         mniQuanLyHoaDon.addActionListener(e -> cardLayout.show(getContentPane(), "QLHoaDon"));
+        
         mniQuanLyNhanVien.addActionListener(e -> cardLayout.show(getContentPane(), "QLNhanVien"));
         mniQuanLySanPham.addActionListener(e -> cardLayout.show(getContentPane(), "QLSanPham"));
         mniQuanLiKhachHang.addActionListener(e -> cardLayout.show(getContentPane(), "QLKhachHang"));

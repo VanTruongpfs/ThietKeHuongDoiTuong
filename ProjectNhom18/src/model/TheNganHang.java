@@ -18,4 +18,10 @@ public class TheNganHang implements PTPAY {
 		return tien*= 1.02 ;
 	}
 
+	@Override
+	public String getPT() {
+		// TODO Auto-generated method stub
+		return "Thẻ NH";
+	}
+
 }

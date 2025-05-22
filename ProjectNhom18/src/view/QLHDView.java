@@ -22,14 +22,18 @@ public class QLHDView {
     JPanel pnHD, leftPanel, rightPanel, searchPanel, dateFilterPanel, pnQuanLyHoaDon;
     JLabel titleLabel, searchLabel, lblNgay, lblThang, lblNam;
     JComboBox<String> filterBox;
-    JButton statsButton, searchButton;
+    JButton statsButton, searchButton, btnReset, btnLocTheoNgay, btnThongKe;
     JTextField searchField;
     DefaultTableModel model;
     JScrollPane tableScrollPane;
     JTable table;
     JSplitPane splitPaneHD;
-    JTextField tfNgay, tfThang, tfNam;
-    public QLHDView(){
+    JTextField tfNgay, tfThang, tfNam,txtDoanhThu;
+    public JTextField getTxtDoanhThu() {
+		return txtDoanhThu;
+	}
+
+	public QLHDView(){
         pnHD = new JPanel(new BorderLayout());
     // ===== Panel bên trái =====
     leftPanel = new JPanel();
@@ -42,9 +46,6 @@ public class QLHDView {
     titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
     titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-    filterBox = new JComboBox<>(new String[] { "-- Mặc định --", "Theo ngày", "Theo tháng", "Theo năm" });
-    filterBox.setMaximumSize(new Dimension(180, 30));
-    filterBox.setAlignmentX(Component.CENTER_ALIGNMENT);
 
     statsButton = new JButton("Chi tiết hóa đơn");
     statsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -52,7 +53,7 @@ public class QLHDView {
     leftPanel.add(Box.createVerticalStrut(20));
     leftPanel.add(titleLabel);
     leftPanel.add(Box.createVerticalStrut(15));
-    leftPanel.add(filterBox);
+
     leftPanel.add(Box.createVerticalStrut(15));
     leftPanel.add(statsButton);
 
@@ -68,7 +69,12 @@ public class QLHDView {
     searchPanel.add(searchField, BorderLayout.CENTER);
     searchPanel.add(searchButton, BorderLayout.EAST);
     searchPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+    btnReset = new JButton("Reload");
+    buttonPanel.add(searchButton);
+    buttonPanel.add(btnReset);
+   
+    searchPanel.add(buttonPanel, BorderLayout.EAST);
     String[] columns = { "Mã HD", "Thời gian lập", "Mã KH", "Tên NV", "Tổng tiền", "PT Thanh toán" };
     model = new DefaultTableModel(columns, 0);
     table = new JTable(model);
@@ -80,16 +86,16 @@ public class QLHDView {
 
     // ===== JSplitPane cho layout trái - phải =====
     splitPaneHD = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-    splitPaneHD.setDividerLocation(200);            // panel trái chiếm 200px
-    splitPaneHD.setResizeWeight(0);                 // panel phải chiếm hết phần còn lại
-    splitPaneHD.setOneTouchExpandable(true);        // cho phép ẩn/hiện panel trái
+    splitPaneHD.setDividerLocation(200);           
+    splitPaneHD.setResizeWeight(0);              
+    splitPaneHD.setOneTouchExpandable(true);        
 
     pnHD.add(splitPaneHD, BorderLayout.CENTER);
 
  // ===== Panel thống kê doanh thu (góc dưới bên trái) =====
     JPanel bottomLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    JButton btnThongKe = new JButton("Thống kê doanh thu");
-    JTextField txtDoanhThu = new JTextField(15);
+    btnThongKe = new JButton("Thống kê doanh thu");
+    txtDoanhThu = new JTextField(15);
     txtDoanhThu.setEditable(false);
     txtDoanhThu.setText("0đ");
 
@@ -110,14 +116,14 @@ public class QLHDView {
     tfNgay = new JTextField();
     tfThang = new JTextField();
     tfNam = new JTextField();
-    JButton btnLocTheoNgay = new JButton("Lọc");
+    btnLocTheoNgay = new JButton("Lọc");
     dateFilterPanel.add(lblNgay);
     dateFilterPanel.add(tfNgay);
     dateFilterPanel.add(lblThang);
     dateFilterPanel.add(tfThang);
     dateFilterPanel.add(lblNam);
     dateFilterPanel.add(tfNam);
-    dateFilterPanel.add(new JLabel()); // ô trống
+    dateFilterPanel.add(new JLabel()); 
     dateFilterPanel.add(btnLocTheoNgay);
 
     leftPanel.add(Box.createVerticalStrut(20));
@@ -131,7 +137,111 @@ public class QLHDView {
     pnQuanLyHoaDon.repaint();
     }
 
-    public JPanel QLHD(){
+    public JButton getBtnLocTheoNgay() {
+		return btnLocTheoNgay;
+	}
+
+	public JPanel QLHD(){
         return pnHD;
     }
+
+	public DefaultTableModel getTable() {
+		// TODO Auto-generated method stub
+		return model;
+	}
+
+	public JPanel getPnHD() {
+		return pnHD;
+	}
+
+	public JPanel getLeftPanel() {
+		return leftPanel;
+	}
+
+	public JPanel getRightPanel() {
+		return rightPanel;
+	}
+
+	public JPanel getSearchPanel() {
+		return searchPanel;
+	}
+
+	public JPanel getDateFilterPanel() {
+		return dateFilterPanel;
+	}
+
+	public JPanel getPnQuanLyHoaDon() {
+		return pnQuanLyHoaDon;
+	}
+
+	public JLabel getTitleLabel() {
+		return titleLabel;
+	}
+
+	public JLabel getSearchLabel() {
+		return searchLabel;
+	}
+
+	public JLabel getLblNgay() {
+		return lblNgay;
+	}
+
+	public JLabel getLblThang() {
+		return lblThang;
+	}
+
+	public JLabel getLblNam() {
+		return lblNam;
+	}
+	public JTable getTB() {
+		return table;
+	}
+	public JComboBox<String> getFilterBox() {
+		return filterBox;
+	}
+
+	public JButton getStatsButton() {
+		return statsButton;
+	}
+
+	public JButton getSearchButton() {
+		return searchButton;
+	}
+
+	public JButton getBtnReset() {
+		return btnReset;
+	}
+
+	public JTextField getSearchField() {
+		return searchField;
+	}
+
+	public DefaultTableModel getModel() {
+		return model;
+	}
+
+	public JButton getBtnThongKe() {
+		return btnThongKe;
+	}
+
+	public JScrollPane getTableScrollPane() {
+		return tableScrollPane;
+	}
+
+	public JSplitPane getSplitPaneHD() {
+		return splitPaneHD;
+	}
+
+	public JTextField getTfNgay() {
+		return tfNgay;
+	}
+
+	public JTextField getTfThang() {
+		return tfThang;
+	}
+
+	public JTextField getTfNam() {
+		return tfNam;
+	}
+	
 }

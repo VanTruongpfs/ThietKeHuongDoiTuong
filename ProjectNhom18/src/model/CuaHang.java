@@ -2,6 +2,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,13 +15,14 @@ import javax.swing.table.DefaultTableModel;
 import utils.DBConnection;
 
 public class CuaHang implements Subject {
+	  private static CuaHang instance;
 	private String maCH;
 	private String tenCH;
 	private List<NhanVien> dsNV= new ArrayList<NhanVien>();
 	private List<SanPham> dsSP = new ArrayList<SanPham>();
 	private List<Observer> dsKH = new ArrayList<Observer>();
 	private List<HoaDon> dsHD= new ArrayList<HoaDon>();
-
+	
 	public CuaHang(String maCH, String tenCH, List<NhanVien> dsNV, List<SanPham> dsSP, List<Observer> dsKH,
 			List<HoaDon> dsHD) {
 		super();
@@ -52,7 +54,30 @@ public class CuaHang implements Subject {
 			e.printStackTrace();
 		}
 	}
-
+	public CuaHang getCH() {
+		if (instance == null) {
+			instance = new CuaHang();
+		}
+		return instance;
+	}
+	public List<HoaDon> laydsHD() {
+		 List<HoaDon> dshd = new ArrayList<HoaDon>();
+		 try {
+			Connection con = DBConnection.getConnection();
+			 String str = "SELECT * FROM HOADON";
+			 PreparedStatement pre = con.prepareStatement(str);// dat cau lenh len con
+			 ResultSet result = pre.executeQuery();
+			 while(result.next()) {
+				 HoaDon hd = new HoaDon(result.getString("maHD"), result.getString("maKH"), result.getString("maNV"), result.getDate("ngayLap"), result.getDouble("tongTien"),result.getString("PTPay"));
+				 dshd.add(hd);
+				 
+			 }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return dshd;
+	 }
 	public void layKHTuDB() {
 		try {
 			Connection cnn = DBConnection.getConnection();
@@ -91,6 +116,26 @@ public class CuaHang implements Subject {
 	@Override
 	public void themOB(Observer ob) {
 
+	}
+	public NhanVien timNhanVienTheoTen(String ten) {
+		for (NhanVien nv : dsNV) {
+			if (nv.getTenNV().equalsIgnoreCase(ten)) {
+				return nv;
+			}
+		}
+		return null;
+	}
+
+	public KhachHang timKhachHangTheoSDT(String sdt) {
+		for (Observer ob : dsKH) {
+	        if (ob instanceof KhachHang) {
+	            KhachHang kh = (KhachHang) ob;
+	            if (kh.getSdt().equals(sdt)) {
+	                return kh;
+	            }
+	        }
+	    }
+	    return null;
 	}
 
 	@Override
@@ -150,19 +195,19 @@ public class CuaHang implements Subject {
 	public boolean insertHoaDon(HoaDon hd) {
 		try {
 			Connection cnn = DBConnection.getConnection();
-			String sql = "INSERT INTO HOADON (MaHD, MaKH, MaNV, ngayLap, TongTien) VALUES (?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO HOADON (MaHD, MaKH, MaNV, ngayLap, TongTien, PTPay) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 
 			ps.setNString(1, hd.getMaHD());
 			ps.setString(2, hd.getMaKH());
 			ps.setString(3, hd.getMaNV());
-
+			ps.setString(4,hd.getPT());
 			// Giả sử chuỗi định dạng yyyy-MM-dd
-			String dateStr = hd.getNgayLapHD();
-			java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
-			ps.setDate(4, sqlDate);
+			Date dateStr = hd.getNgayLapHD();
+//			java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
+			ps.setDate(4, dateStr);
 			ps.setDouble(5, hd.tongTien());
-
+			ps.setString(6,hd.getPT());
 			int rs = ps.executeUpdate();
 			dsSP = new ArrayList<SanPham>();
 			return rs != 0;
@@ -190,7 +235,33 @@ public class CuaHang implements Subject {
 			return false;
 		}
 	}
+	public List<ChiTietHoaDon> layDsChiTietHoaDon(String maHD) {
+	    List<ChiTietHoaDon> ds = new ArrayList<>();
+	    try {
+	        Connection cnn = DBConnection.getConnection();
+	        String sql = "SELECT * FROM CHITIETHOADON WHERE MAHD = ?";
+	        PreparedStatement ps = cnn.prepareStatement(sql);
+	        ps.setString(1, maHD);
+	        ResultSet rs = ps.executeQuery();
 
+	        while (rs.next()) {
+	            String maSP = rs.getString("MASP");
+	            String tenSP = rs.getString("TENSP");
+	            int soLuong = rs.getInt("SOLUONG");
+	            double donGia = rs.getDouble("DONGIA");
+
+	            ChiTietHoaDon cthd = new ChiTietHoaDon(maHD, maSP, tenSP, soLuong, donGia);
+	            ds.add(cthd);
+	        }
+
+	    
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return ds;
+	}
+
+			
 	public boolean checkTrung(String maSP, String tenSP) {
 		for (SanPham sp : dsSP) {
 			if (sp.getMaSP().equalsIgnoreCase(maSP) || sp.getTenSP().equalsIgnoreCase(tenSP)) {
@@ -219,24 +290,7 @@ public class CuaHang implements Subject {
 
 	}
 
-	public List<SanPham> dsSP() {
-		List<SanPham> dsSP1 = new ArrayList<SanPham>();
-		try {
-			Connection conn = DBConnection.getConnection();
-			String bangSP = "select * from SanPham";
-			PreparedStatement ps = conn.prepareStatement(bangSP);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				SanPham sp = new SanPham(rs.getString("maSP"), rs.getString("tenSP"), rs.getDouble("donGia"),
-						rs.getInt("tonKho"), rs.getString("xuatXu"));
-				dsSP1.add(sp);
 
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dsSP1;
-	}
 
 	public SanPham searchSP(String maSP, String tenSP) {
 		for (SanPham p : dsSP) {
@@ -378,9 +432,5 @@ public class CuaHang implements Subject {
 		this.dsHD = dsHD;
 	}
 
-	public static void main(String[] args) {
-		CuaHang c = new CuaHang();
-		System.out.println(c.getDsNV());
-	}
-
+	
 }
