@@ -6,6 +6,8 @@ import utils.DBConnection;
 import view.QLSanPhamView;
 import view.TaoHoaDonView;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,6 +35,7 @@ public class SanPhamController {
 		view.getNutSerach().addActionListener(e -> search());
 		view.getRemove().addActionListener(e -> xoaSP());
 		view.getChapNhan().addActionListener(e -> updateSP());
+		reset();
 	}
 
 	public void xoaSP() {
@@ -124,6 +127,15 @@ public class SanPhamController {
 		capNhatBang();
 		view.getFramSua().dispose();
 		view.showValidDialog();
+	}
+	public void reset() {
+		view.getReset().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				capNhatBang();
+			}
+		});
 	}
 
 }

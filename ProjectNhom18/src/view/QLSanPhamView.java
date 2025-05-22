@@ -32,19 +32,20 @@ public class QLSanPhamView {
 	JPanel pnQuanLySanPham = new JPanel();
 	JPanel quanLiSanPHam, panelSearch, panelBangThongTinSP, panelBangThongTinSP1, panelBangThongTinSP2, panelQlFunction,
 			pnADDRe1, pnADDRe11, pnADDRe12, pnADDRe2, pnADDRe21, pnADDRe22, panelSeacrchAndTK, panelTK;
-	JButton sua, add, remove, nutSerach, chapNhan, huy;
+	JButton sua, add, remove, nutSerach, chapNhan, huy, reset;
 	JTextField textMaSP, textMaSP_Xoa, textTenSP, textSLSP, textGiaSP, textAnhSP, boxSearch, totalSP, textMASP_Sua,
 			textTenSP_Sua, textSLSP_Sua, textGiaSP_Sua, textXXSP_SUa;
 	DefaultTableModel ttCOT;
 	JTable tableBangThongTinSP;
 	JScrollPane scrollThongTinSP;
 	JFrame framSua;
-
+	
 	public QLSanPhamView() {
 		pnQuanLySanPham.setLayout(new BorderLayout());
 		sua = new JButton("Sửa");
 		add = new JButton("Thêm");
 		remove = new JButton("Xóa");
+		reset = new JButton("Reset");
 		textMaSP = new JTextField(10);
 		textMaSP_Xoa = new JTextField(10);
 		textTenSP = new JTextField(10);
@@ -106,13 +107,13 @@ public class QLSanPhamView {
 			}
 		};
 
-		List<SanPham> data = new ArrayList<SanPham>();
-		data.add(new SanPham("SP001", "Sữa tươi Vinamilk", 25000, 100, "Việt Nam"));
-		data.add(new SanPham("SP002", "Mì tôm Hảo Hảo", 4500, 300, "Việt Nam"));
-		for (SanPham sp : data) {
-			String[] row = { sp.getMaSP(), sp.getTenSP(), sp.getDonGia() + "", sp.getTonKho() + "", sp.getXuatXu() };
-			ttCOT.addRow(row);
-		}
+//		List<SanPham> data = new ArrayList<SanPham>();
+//		data.add(new SanPham("SP001", "Sữa tươi Vinamilk", 25000, 100, "Việt Nam"));
+//		data.add(new SanPham("SP002", "Mì tôm Hảo Hảo", 4500, 300, "Việt Nam"));
+//		for (SanPham sp : data) {
+//			String[] row = { sp.getMaSP(), sp.getTenSP(), sp.getDonGia() + "", sp.getTonKho() + "", sp.getXuatXu() };
+//			ttCOT.addRow(row);
+//		}
 		tableBangThongTinSP = new JTable(ttCOT);
 		scrollThongTinSP = new JScrollPane(tableBangThongTinSP);
 		panelBangThongTinSP1.add(scrollThongTinSP);
@@ -121,6 +122,7 @@ public class QLSanPhamView {
 		panelBangThongTinSP2.setLayout(new FlowLayout());
 		panelBangThongTinSP.add(panelBangThongTinSP2, BorderLayout.SOUTH);
 		panelBangThongTinSP2.add(sua);
+		panelBangThongTinSP2.add(reset);
 
 		// bảng quản lí chức năng sản phẩm
 		panelQlFunction = new JPanel();
@@ -569,4 +571,12 @@ public class QLSanPhamView {
 		
 	}
 
+	public JButton getReset() {
+		return reset;
+	}
+
+	public void setReset(JButton reset) {
+		this.reset = reset;
+	}
+	
 }
