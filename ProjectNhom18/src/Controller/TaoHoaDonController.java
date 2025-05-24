@@ -205,6 +205,7 @@ public class TaoHoaDonController {
 					view.getTfTienKhach().setText(tienKhachDua+"");
 				}
 				view.getModelChiTiet().setRowCount(0);
+				view.getBgPTTT().clearSelection();
 			}
 		});
 	}
