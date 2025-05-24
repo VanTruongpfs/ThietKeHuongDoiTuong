@@ -1,12 +1,15 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.lang.ModuleLayer.Controller;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,8 +27,8 @@ public class QLNVView {
  public  JPanel panelQLNV_Main, panelQLNV_TimKiem, panelQLNV_Trai, panelQLNV_FormThem,
            panelQLNV_BtnThem, panelQLNV_Xoa, panelQLNV_Phai, panelQLNV_tinhLuong;
  public   JTextField tfQLNV_MaTK, tfQLNV_MaNV, tfQLNV_TenNV, tfQLNV_NgaySinh, tfQLNV_NBDL,
-                tfQLNV_Luong, tfQLNV_XoaMaNV, tfQLNV_TinhLuong, tfQLNV_soGioLam;
- public  JButton btnQLNV_Tim, btnQLNV_Them, btnQLNV_Xoa, btnQLNV_TinhLuong, btnQLNV_Cancel;
+          tfQLNV_Luong, tfQLNV_XoaMaNV, tfQLNV_TinhLuong, tfQLNV_soGioLam;
+ public  JButton btnQLNV_Tim, btnQLNV_Them, btnQLNV_Xoa, btnQLNV_TinhLuong, btnQLNV_Cancel, btnQLNV_Sua;
  public JLabel lblQLNV_MaTK, lblQLNV_TinhLuong;
 
  public JLabel lblQLNV_raLuong;
@@ -35,7 +38,9 @@ public class QLNVView {
  public JSplitPane splitPaneQLNV;
  public NhanVienController NVcontroller;
  public CuaHang ch;
-    public QLNVView() {
+ public JFrame FramSua;
+    
+	public QLNVView() {
 	build();
 	NVcontroller = new NhanVienController(this, ch);
 }
@@ -90,8 +95,10 @@ panelQLNV_FormThem.add(new JLabel("Ngày BD Làm:"));
 		panelQLNV_FormThem.add(tfQLNV_soGioLam);
 
 		btnQLNV_Them = new JButton("Thêm nhân viên");
+		btnQLNV_Sua = new JButton("Sửa");
 		panelQLNV_BtnThem = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		panelQLNV_BtnThem.add(btnQLNV_Them);
+		panelQLNV_BtnThem.add(btnQLNV_Sua);
 		
 		JPanel panelQLNV_ThemNV = new JPanel(new BorderLayout());
 		panelQLNV_ThemNV.add(panelQLNV_FormThem, BorderLayout.NORTH);
@@ -152,7 +159,14 @@ panelQLNV_FormThem.add(new JLabel("Ngày BD Làm:"));
 		pnQuanLyNhanVien.revalidate();
 		pnQuanLyNhanVien.repaint();
 	}
+	public JFrame getFramSua() {
+		return FramSua;
+	}
+	public void setFramSua(JFrame framSua) {
+		FramSua = framSua;
+	}
     public JPanel QLNV() {
         return pnQuanLyNhanVien;
     }
+   
 }

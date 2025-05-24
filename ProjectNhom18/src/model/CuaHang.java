@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import utils.DBConnection;
 
 public class CuaHang implements Subject {
-//	private static CuaHang instance;
 	private String maCH;
 	private String tenCH;
 	private List<NhanVien> dsNV = new ArrayList<NhanVien>();
@@ -54,13 +53,6 @@ public class CuaHang implements Subject {
 			e.printStackTrace();
 		}
 	}
-
-//	public CuaHang getCH() {
-//		if (instance == null) {
-//			instance = new CuaHang();
-//		}
-//		return instance;
-//	}
 
 	public List<HoaDon> laydsHD() {
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
@@ -158,24 +150,6 @@ public class CuaHang implements Subject {
 
 	}
 
-	public void themSP(SanPham sp) {
-		if (dsSP.contains(sp)) {
-			for (SanPham s : dsSP) {
-				if (s.equals(sp)) {
-					s.capNhatSL(sp.getTonKho());
-				}
-			}
-		} else {
-			dsSP.add(sp);
-		}
-	}
-
-	public List<SanPham> getDsSP() {
-		dsSP.clear();
-		laySPTuDB();
-		return dsSP;
-	}
-
 	public boolean updateSLSP(String maSP, int soLuong) {
 		try {
 			Connection cnn = DBConnection.getConnection();
@@ -203,9 +177,7 @@ public class CuaHang implements Subject {
 			ps.setString(2, hd.getMaKH());
 			ps.setString(3, hd.getMaNV());
 			ps.setString(4, hd.getPT());
-			// Giả sử chuỗi định dạng yyyy-MM-dd
 			Date dateStr = hd.getNgayLapHD();
-//			java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
 			ps.setDate(4, dateStr);
 			ps.setDouble(5, hd.tongTien());
 			ps.setString(6, hd.getPT());
@@ -269,25 +241,6 @@ public class CuaHang implements Subject {
 			}
 		}
 		return false;
-	}
-
-	public void themKH(String maKH, String tenKH, String gt, String sdt, String diachi, int diem) {
-		try {
-			Connection conn = DBConnection.getConnection();
-			String sql = "INSERT INTO KHACHHANG(maKH, tenKH, gt, sdt, diaChi, diemTichLuy) VALUES (?,?,?,?,?,?) ";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, maKH);
-			ps.setString(2, tenKH);
-			ps.setString(3, gt);
-			ps.setString(4, sdt);
-			ps.setString(5, diachi);
-			ps.setInt(6, diem);
-			int rs = ps.executeUpdate();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public SanPham searchSP(String maSP, String tenSP) {
@@ -354,6 +307,23 @@ public class CuaHang implements Subject {
 		}
 		return total;
 	}
+	public void themSP(SanPham sp) {
+		if (dsSP.contains(sp)) {
+			for (SanPham s : dsSP) {
+				if (s.equals(sp)) {
+					s.capNhatSL(sp.getTonKho());
+				}
+			}
+		} else {
+			dsSP.add(sp);
+		}
+	}
+
+	public List<SanPham> getDsSP() {
+		dsSP.clear();
+		laySPTuDB();
+		return dsSP;
+	}
 
 	// khách hàng
 	public KhachHang searchKH(String maKH, String tenKH) {
@@ -368,6 +338,24 @@ public class CuaHang implements Subject {
 		return null;
 	}
 
+	public void themKH(String maKH, String tenKH, String gt, String sdt, String diachi, int diem) {
+		try {
+			Connection conn = DBConnection.getConnection();
+			String sql = "INSERT INTO KHACHHANG(maKH, tenKH, gt, sdt, diaChi, diemTichLuy) VALUES (?,?,?,?,?,?) ";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, maKH);
+			ps.setString(2, tenKH);
+			ps.setString(3, gt);
+			ps.setString(4, sdt);
+			ps.setString(5, diachi);
+			ps.setInt(6, diem);
+			int rs = ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	public boolean xoaKH(String maKH) {
 		try {
 			String sql = "DELETE FROM KHACHHANG WHERE maKH = ?";
@@ -402,7 +390,16 @@ public class CuaHang implements Subject {
 	
 	
 	
-	
+	public NhanVien timNhanVien(String maNV) {
+		NhanVien rs = null;
+		// TODO Auto-generated method stub
+		for (NhanVien nv : dsNV) {
+			if(nv.getMaNV().equalsIgnoreCase(maNV)) {
+				rs = nv;
+			}
+		}
+		return rs;
+	}
 	
 	
 	public void setDsSP(List<SanPham> dsSP) {

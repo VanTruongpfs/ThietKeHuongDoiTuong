@@ -1,15 +1,26 @@
 package Controller;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
 import model.CuaHang;
 import model.NhanVien;
 import utils.DBConnection;
 import view.QLNVView;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NhanVienController {
     private QLNVView view;
@@ -29,6 +40,7 @@ public class NhanVienController {
         view.btnQLNV_Tim.addActionListener(e -> timNhanVien());
         view.btnQLNV_Cancel.addActionListener(e -> CancelTK());
         view.btnQLNV_TinhLuong.addActionListener(e -> tinhLuong());
+        view.btnQLNV_Sua.addActionListener(e-> hienThiFormSua());
        
     }
     public void hienThiNV() {
@@ -98,8 +110,6 @@ public class NhanVienController {
         view.tfQLNV_NBDL.setText("");
         view.tfQLNV_Luong.setText("");
         view.tfQLNV_soGioLam.setText("");
-        
-        
     }
 
 
@@ -128,7 +138,112 @@ public class NhanVienController {
         }
         view.tfQLNV_XoaMaNV.setText("");
     }
+    
+    public void hienThiFormSua() {
+    	JDialog log = new JDialog();
+    	log.setTitle("Nhập mã nhân viên cần sửa");
+    	log.setSize(300,150);
+    	log.setLocationRelativeTo(null);
+    	
+    	JPanel panel = new JPanel(new FlowLayout());
+        JLabel lblMaNV = new JLabel("Mã nhân viên:");
+        JTextField txtMaNV = new JTextField(10);
+        JButton btnOK = new JButton("OK");
+        
+        panel.add(lblMaNV);
+        panel.add(txtMaNV);
+        panel.add(btnOK);
+        log.add(panel);
+        
+        btnOK.addActionListener(e -> {
+            String maNV = txtMaNV.getText().trim();
+            log.dispose();
+            hienThiChiTietSua(maNV);
+        });
 
+        log.setVisible(true);
+    	
+    }
+    public void hienThiChiTietSua(String maNV) {
+    	CuaHang model = new CuaHang();
+        NhanVien nv = model.timNhanVien(maNV);
+        if (nv == null) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên!");
+            return;
+        }
+
+        JDialog suaDialog = new JDialog();
+        suaDialog.setTitle("Sửa thông tin nhân viên");
+        suaDialog.setSize(400, 300);
+        suaDialog.setLocationRelativeTo(null);
+        suaDialog.setLayout(new GridLayout(7, 2));
+
+        JTextField tfTen = new JTextField(nv.getTenNV());
+        JTextField tfNgaySinh = new JTextField(nv.getNgaySinh().toString());
+        JTextField tfNgayBDL = new JTextField(nv.getNgayBDLam().toString());
+        JTextField tfLuongCB = new JTextField(String.valueOf(nv.getLuongCB()));
+        JTextField tfSoGioLam = new JTextField(String.valueOf(nv.getSoGioLam()));
+
+        JButton btnCapNhat = new JButton("Cập nhật");
+
+        suaDialog.add(new JLabel("Tên NV:"));
+        suaDialog.add(tfTen);
+        suaDialog.add(new JLabel("Ngày sinh:"));
+        suaDialog.add(tfNgaySinh);
+        suaDialog.add(new JLabel("Ngày bắt đầu làm:"));
+        suaDialog.add(tfNgayBDL);
+        suaDialog.add(new JLabel("Lương CB:"));
+        suaDialog.add(tfLuongCB);
+        suaDialog.add(new JLabel("Số giờ làm:"));
+        suaDialog.add(tfSoGioLam);
+        suaDialog.add(new JLabel());
+        suaDialog.add(btnCapNhat);
+
+        btnCapNhat.addActionListener(e -> {
+            capNhatNhanVien(maNV, tfTen.getText(), tfNgaySinh.getText(), tfNgayBDL.getText(), tfLuongCB.getText(), tfSoGioLam.getText());
+            suaDialog.dispose();
+        });
+
+        suaDialog.setVisible(true);
+    }
+    
+
+    public void capNhatNhanVien(String maNV, String tenNV, String ngaySinhStr, String ngayBDLStr, String luongStr, String gioLamStr) {
+        try {
+            Date ngaySinh = Date.valueOf(ngaySinhStr);
+            Date ngayBDL = Date.valueOf(ngayBDLStr);
+            double luongCB = Double.parseDouble(luongStr);
+            int soGioLam = Integer.parseInt(gioLamStr);
+
+            try
+                 {
+
+            	
+            	Connection con = DBConnection.getConnection();
+String sql = "UPDATE NHANVIEN SET tenNV = ?, ngaySinh = ?, ngayBDLam = ?, luongCB = ?, soGioLam = ? WHERE maNV = ?";
+            	 PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, tenNV);
+                ps.setDate(2, ngaySinh);
+                ps.setDate(3, ngayBDL);
+                ps.setDouble(4, luongCB);
+                ps.setInt(5, soGioLam);
+                ps.setString(6, maNV);
+
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    JOptionPane.showMessageDialog(null, "Cập nhật nhân viên thành công!");
+                    hienThiNV();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cập nhật thất bại.");
+                }
+            
+
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Lỗi nhập liệu, kiểm tra ngày và số!");}
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi cập nhật nhân viên: " + e.getMessage());
+        }
+    }
     
     public void timNhanVien() {
         String maNV = view.tfQLNV_MaTK.getText().trim();
