@@ -66,7 +66,8 @@ public class NhanVienController {
 
             NhanVien nv = new NhanVien(maNV, tenNV, ngaySinh, ngayBDL, luongCB, soGioLam);
 
-            try (Connection con = DBConnection.getConnection()) {
+            try  {
+            	Connection con = DBConnection.getConnection();
                 String sql = "INSERT INTO NHANVIEN (maNV, tenNV, ngaySinh, ngayBDLam, luongCB, soGioLam) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setString(1, maNV);
@@ -83,11 +84,12 @@ public class NhanVienController {
                 } else {
                     JOptionPane.showMessageDialog(null, "Thêm nhân viên thất bại.");
                 }
-            }
+            
 
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, "Lỗi nhập liệu, kiểm tra ngày và số!");
-        } catch (SQLException e) {
+        }
+        }catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Lỗi khi thêm nhân viên: " + e.getMessage());
         }
         view.tfQLNV_MaNV.setText("");
@@ -96,6 +98,7 @@ public class NhanVienController {
         view.tfQLNV_NBDL.setText("");
         view.tfQLNV_Luong.setText("");
         view.tfQLNV_soGioLam.setText("");
+        
         
     }
 
@@ -107,7 +110,8 @@ public class NhanVienController {
             return;
         }
 
-        try (Connection con = DBConnection.getConnection()) {
+        try {
+        	Connection con = DBConnection.getConnection();
             String sql = "DELETE FROM NHANVIEN WHERE maNV = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maNV);
@@ -133,7 +137,8 @@ public class NhanVienController {
             return;
         }
 
-        try (Connection con = DBConnection.getConnection()) {
+        try  {
+        	Connection con = DBConnection.getConnection();
             String sql = "SELECT * FROM NHANVIEN WHERE maNV = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maNV);
@@ -175,7 +180,8 @@ public class NhanVienController {
         }
 
 
-        try (Connection con = DBConnection.getConnection()) {
+        try {
+        	Connection con = DBConnection.getConnection();
             String sql = "SELECT luongCB, soGioLam FROM NHANVIEN WHERE TRIM(maNV) = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maNV);

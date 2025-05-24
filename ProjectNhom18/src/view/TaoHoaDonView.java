@@ -31,11 +31,11 @@ public class TaoHoaDonView {
     DefaultTableModel modelChiTiet, modelKho;
     JRadioButton rdTienMat, rdChuyenKhoan, rdTheNganHang;
     ButtonGroup bgPTTT;
-    JButton btnHuy, btnXuat, btnTim, btnThemSP, btnXoaSP;
+    JButton btnHuy, btnXuat, btnTim, btnThemSP, btnXoaSP, btnTamTinh;
     JLabel lblMaHD, lblNgayLap, lblTongTien, lblPTTT, lblTenNV, lblTienKhach, lblSDT;
     JComboBox<String> cbTenNV;
     JScrollPane scrollMenu, scrollChiTiet;
-
+    
     public TaoHoaDonView(){
         pnTaoDon.setLayout(new BorderLayout());
         // Panel chính chứa bên trái và phải
@@ -103,7 +103,7 @@ public class TaoHoaDonView {
 		ptPanel.add(rdChuyenKhoan);
 		ptPanel.add(rdTheNganHang);
 
-		lblTienKhach = new JLabel("Tiền khách đưa");
+		lblTienKhach = new JLabel("Tiền khách phải thanh toán");
 		tfTienKhach = new JTextField();
 
 		pnThanhToan.add(lblTongTien);
@@ -116,7 +116,9 @@ public class TaoHoaDonView {
 		// Nút thao tác
 		btnHuy = new JButton("Hủy hóa đơn");
 		btnXuat = new JButton("Xuất hóa đơn");
+		btnTamTinh = new JButton("Tạm Tính");
 		pnNut = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		pnNut.add(btnTamTinh);
 		pnNut.add(btnHuy);
 		pnNut.add(btnXuat);
 
@@ -133,9 +135,7 @@ public class TaoHoaDonView {
 		pnPhaiTD = new JPanel(new BorderLayout());
 		pnPhaiTD.setBorder(BorderFactory.createTitledBorder("MENU BAR"));
 
-		String[] cols = { "Tên món", "Ảnh", "Giá", "Số lượng còn lại"};
 		modelKho = new QLSanPhamView().getTtCOT();
-//		modelKho = new DefaultTableModel(cols,0); 
 		tblMenu = new JTable(modelKho);
 		scrollMenu = new JScrollPane(tblMenu);
 		
@@ -158,7 +158,7 @@ public class TaoHoaDonView {
 		// Gắn vào SplitPane
 		splitPaneTD.setLeftComponent(pnTraiTD);
 		splitPaneTD.setRightComponent(pnPhaiTD);
-        pnTraiTD.setMinimumSize(new Dimension(400, 400));
+        pnTraiTD.setMinimumSize(new Dimension(530, 400));
         pnPhaiTD.setMinimumSize(new Dimension(400, 400));
 		pnTaoDon.removeAll();
 		pnTaoDon.add(splitPaneTD, BorderLayout.CENTER);
@@ -293,6 +293,12 @@ public class TaoHoaDonView {
 	}
 	public JScrollPane getScrollChiTiet() {
 		return scrollChiTiet;
+	}
+	public JButton getBtnTamTinh() {
+		return btnTamTinh;
+	}
+	public void setBtnTamTinh(JButton btnTamTinh) {
+		this.btnTamTinh = btnTamTinh;
 	}
 	
 }

@@ -25,6 +25,7 @@ import model.ChuyenKhoan;
 import model.CuaHang;
 import model.HoaDon;
 import model.KhachHang;
+import model.KhachHangThanThiet;
 import model.NhanVien;
 import model.SanPham;
 import model.ThanhToan;
@@ -68,6 +69,7 @@ public class TaoHoaDonController {
 		PTTT();
 		timKiem();
 		xuatHoaDon();
+		tienKhachPhaiThanhToan();
 	}
 
 	// thêm sản phẩm
@@ -172,6 +174,8 @@ public class TaoHoaDonController {
 							tongTien -= soLuongXoa * gia;
 							view.getTfTongTien().setText(tongTien + "");
 							view.getModelChiTiet().setValueAt(soLuong - soLuongXoa + "", selected, 2);
+							view.getModelChiTiet().setValueAt((soLuong - soLuongXoa)*gia, selected, 4);
+
 							view.getTblChiTiet().clearSelection();
 							model.updateSLSP(maSP, soLuongXoa);
 							hienThiSP();
@@ -196,7 +200,9 @@ public class TaoHoaDonController {
 					model.updateSLSP(maSP, soLuong);
 					hienThiSP();
 					tongTien=0;
+					tienKhachDua =0;
 					view.getTfTongTien().setText(tongTien+"");
+					view.getTfTienKhach().setText(tienKhachDua+"");
 				}
 				view.getModelChiTiet().setRowCount(0);
 			}
@@ -211,7 +217,7 @@ public class TaoHoaDonController {
 				if (view.getRdTienMat().isSelected()) {
 					pttt.setPTTT(new TienMat());
 					tienKhachDua = pttt.getPhuongThucPay().pay(tongTien);
-					view.getTfTienKhach().setText(tienKhachDua + "");
+//					view.getTfTienKhach().setText(tienKhachDua + "");
 				}
 			}
 		});
@@ -222,7 +228,7 @@ public class TaoHoaDonController {
 				if (view.getRdChuyenKhoan().isSelected()) {
 					pttt.setPTTT(new ChuyenKhoan());
 					tienKhachDua = pttt.getPhuongThucPay().pay(tongTien);
-					view.getTfTienKhach().setText(tienKhachDua + "");
+//					view.getTfTienKhach().setText(tienKhachDua + "");
 				}
 			}
 		});
@@ -232,7 +238,7 @@ public class TaoHoaDonController {
 				if (view.getRdTheNganHang().isSelected()) {
 					pttt.setPTTT(new TheNganHang());
 					tienKhachDua = pttt.getPhuongThucPay().pay(tongTien);
-					view.getTfTienKhach().setText(tienKhachDua + "");
+//					view.getTfTienKhach().setText(tienKhachDua + "");
 				}
 			}
 		});
@@ -299,17 +305,16 @@ public class TaoHoaDonController {
 				} else if (view.getRdTheNganHang().isSelected()) {
 				    pt = view.getRdTheNganHang().getText();
 				}
-				double tongTien = Double.parseDouble(String.valueOf(view.getTfTienKhach().getText()));
+				double tienThanhToan = Double.parseDouble(String.valueOf(view.getTfTienKhach().getText()));
 				NhanVien nv = model.timNhanVienTheoTen(tenNV);
 				KhachHang kh = model.timKhachHangTheoSDT(sdtKH);
 				if (kh == null) {
 					JOptionPane.showMessageDialog(view.TaoHoaDon(), "Không tìm thấy khách hàng có số điện thoại: " + sdtKH);
 					return;
 				}
-				HoaDon hd = new HoaDon(maHD, nv.getMaNV(),kh.getMaKH(), ngayLap, tongTien,pt);
+				HoaDon hd = new HoaDon(maHD, nv.getMaNV(),kh.getMaKH(), ngayLap, tienThanhToan,pt);
 				model.insertHoaDon(hd);
-				tongTien = 0;
-				tienKhachDua = 0;
+			
 				for (int i = 0; i < view.getTblChiTiet().getRowCount(); i++) {
 					String maSP = String.valueOf(view.getModelChiTiet().getValueAt(i, 0));
 					String tenSP = String.valueOf(view.getModelChiTiet().getValueAt(i, 1));
@@ -317,8 +322,38 @@ public class TaoHoaDonController {
 					double thanhTien = Double.parseDouble(String.valueOf(view.getModelChiTiet().getValueAt(i, 4)));
 					model.insertChiTietHoaDon(new ChiTietHoaDon(maHD, maSP, tenSP, soLuong, thanhTien));
 				}
+				tongTien = 0;
+				tienKhachDua = 0;
 				view.getModelChiTiet().setRowCount(0);
-				
+				view.getTfTongTien().setText(tongTien+"");
+				view.getTfTienKhach().setText(tienKhachDua+"");
+			}
+		});
+	}
+	public void tienKhachPhaiThanhToan() {
+		view.getBtnTamTinh().addActionListener(new ActionListener() {
+		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double tienGiamGia =0;
+				tienGiamGia = tienKhachDua;
+				if(view.getTfSDT().getText()=="") {
+					view.getTfTienKhach().setText(tienGiamGia+"");
+				}else {
+					String sdt = (String)view.getTfSDT().getText().trim();
+					int diemTichLuy = model.getDiemtichLuy(sdt);
+					if(diemTichLuy>200) {
+						tienGiamGia=tienGiamGia*0.9;
+						view.getTfTienKhach().setText(tienGiamGia+"");
+					}else if(diemTichLuy>40) {
+						tienGiamGia=tienGiamGia*0.95;
+						view.getTfTienKhach().setText(tienGiamGia+"");
+					}else {
+						view.getTfTienKhach().setText(tienGiamGia+"");
+					}
+				}
+				view.getTfTongTien().setText(tongTien+"");
+				view.getBgPTTT().clearSelection();
 			}
 		});
 	}

@@ -107,13 +107,6 @@ public class QLSanPhamView {
 			}
 		};
 
-//		List<SanPham> data = new ArrayList<SanPham>();
-//		data.add(new SanPham("SP001", "Sữa tươi Vinamilk", 25000, 100, "Việt Nam"));
-//		data.add(new SanPham("SP002", "Mì tôm Hảo Hảo", 4500, 300, "Việt Nam"));
-//		for (SanPham sp : data) {
-//			String[] row = { sp.getMaSP(), sp.getTenSP(), sp.getDonGia() + "", sp.getTonKho() + "", sp.getXuatXu() };
-//			ttCOT.addRow(row);
-//		}
 		tableBangThongTinSP = new JTable(ttCOT);
 		scrollThongTinSP = new JScrollPane(tableBangThongTinSP);
 		panelBangThongTinSP1.add(scrollThongTinSP);

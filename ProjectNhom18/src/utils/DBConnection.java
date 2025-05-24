@@ -5,12 +5,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
+	
     private static final String URL = "jdbc:mysql://localhost:3306/cuahang";
     private static final String USER = "root";
     private static final String PASSWORD = "marco1803#";
-
+    
     private static Connection conn;
-
+    
+	private static DBConnection instance;
+    public static synchronized DBConnection getInstance() {
+        if (instance == null) {
+            instance = new DBConnection();
+        }
+        return instance;
+    }
     public static Connection getConnection() {
         if (conn == null) {
             try {
@@ -37,6 +45,7 @@ public class DBConnection {
             }
         }
     }
+    
     public static void printInfo(Connection c) {
     	try {
 			if (c != null) {
@@ -48,4 +57,5 @@ public class DBConnection {
 			e.printStackTrace();
 		}
     }
+    
 }

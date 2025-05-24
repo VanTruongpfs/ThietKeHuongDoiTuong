@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import utils.DBConnection;
 
 public class CuaHang implements Subject {
-	private static CuaHang instance;
+//	private static CuaHang instance;
 	private String maCH;
 	private String tenCH;
 	private List<NhanVien> dsNV = new ArrayList<NhanVien>();
@@ -55,12 +55,12 @@ public class CuaHang implements Subject {
 		}
 	}
 
-	public CuaHang getCH() {
-		if (instance == null) {
-			instance = new CuaHang();
-		}
-		return instance;
-	}
+//	public CuaHang getCH() {
+//		if (instance == null) {
+//			instance = new CuaHang();
+//		}
+//		return instance;
+//	}
 
 	public List<HoaDon> laydsHD() {
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
@@ -108,8 +108,8 @@ public class CuaHang implements Subject {
 				dsNV.add(new NhanVien(rs.getString("maNV"), rs.getString("tenNV"), rs.getDate("ngaySinh"),
 						rs.getDate("ngayBDLam"), rs.getDouble("luongCB"), rs.getInt("soGioLam")));
 			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Lỗi tải dữ liệu từ sql: " + e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -382,6 +382,29 @@ public class CuaHang implements Subject {
 		}
 	}
 
+	public int getDiemtichLuy(String sdt) {
+		int diemTichLuy = 0;
+		try {
+			Connection cnn = DBConnection.getConnection();
+			String sql = "SELECT diemTichLuy FROM KHACHHANG WHERE sdt = ?";
+			PreparedStatement ps = cnn.prepareStatement(sql);
+			ps.setString(1, sdt);
+			ResultSet result = ps.executeQuery();
+			if (result.next()) {
+	            diemTichLuy = result.getInt("diemTichLuy");
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return diemTichLuy;
+
+	}
+	
+	
+	
+	
+	
+	
 	public void setDsSP(List<SanPham> dsSP) {
 		this.dsSP = dsSP;
 	}

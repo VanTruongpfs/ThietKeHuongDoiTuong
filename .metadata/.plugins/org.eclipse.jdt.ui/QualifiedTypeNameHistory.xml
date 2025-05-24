@@ -4,14 +4,9 @@
     <fullyQualifiedTypeName name="Controller.TaoHoaDonController"/>
     <fullyQualifiedTypeName name="view.TaoHoaDonView"/>
     <fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
-    <fullyQualifiedTypeName name="utils.DBConnection"/>
-    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
-    <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="model.SanPham"/>
     <fullyQualifiedTypeName name="com.mysql.cj.x.protobuf.MysqlxCrud.Update"/>
-    <fullyQualifiedTypeName name="model.KhachHang"/>
-    <fullyQualifiedTypeName name="model.KhachHangThanThiet"/>
     <fullyQualifiedTypeName name="java.lang.Boolean"/>
     <fullyQualifiedTypeName name="view.QLKHView"/>
     <fullyQualifiedTypeName name="Controller.KhachHangController"/>
@@ -36,8 +31,13 @@
     <fullyQualifiedTypeName name="Controller.NhanVienController"/>
     <fullyQualifiedTypeName name="view.MainView"/>
     <fullyQualifiedTypeName name="model.NhanVien"/>
-    <fullyQualifiedTypeName name="model.CuaHang"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="javax.swing.JButton"/>
     <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="model.KhachHangThanThiet"/>
+    <fullyQualifiedTypeName name="model.KhachHang"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="utils.DBConnection"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="model.CuaHang"/>
 </qualifiedTypeNameHistroy>
