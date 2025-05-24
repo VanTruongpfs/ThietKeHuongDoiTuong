@@ -327,6 +327,7 @@ public class TaoHoaDonController {
 				view.getModelChiTiet().setRowCount(0);
 				view.getTfTongTien().setText(tongTien+"");
 				view.getTfTienKhach().setText(tienKhachDua+"");
+				view.getBgPTTT().clearSelection();
 			}
 		});
 	}
@@ -353,7 +354,6 @@ public class TaoHoaDonController {
 					}
 				}
 				view.getTfTongTien().setText(tongTien+"");
-				view.getBgPTTT().clearSelection();
 			}
 		});
 	}
