@@ -33,6 +33,8 @@ public class KhachHangController {
 		view.getBtnThem().addActionListener(e -> themKH());
 		view.getBtnXoa().addActionListener(e -> xoaKH());
 		view.getBtnTim().addActionListener(e -> search());
+		view.getBtnChapNhan().addActionListener(e -> update());
+
 
 		view.getBtnThongBao().addActionListener(e -> {
 			String tb = view.getTfThongBao().getText();
@@ -43,29 +45,21 @@ public class KhachHangController {
 
 		capNhatBang();
 
-		view.getBtnSua().addActionListener(e -> {
-			int row = view.getTblKH().getSelectedRow();
-			if (row != -1) {
-				String maKH = (String) view.getModelKH().getValueAt(row, 0);
-				String tenKH = JOptionPane.showInputDialog(this, "Nhập tên KH mới:");
-				String sdt = JOptionPane.showInputDialog(this, "Nhập số điện thoại mới:");
-				String dc = JOptionPane.showInputDialog(this, "Nhập địa chỉ mới:");
-				String diem = JOptionPane.showInputDialog(this, "Nhập số điểm cập nhật");
+	
 
-				if (tenKH != null && sdt != null && !tenKH.isEmpty() && !sdt.isEmpty() && !diem.isEmpty()) {
-					view.getModelKH().setValueAt(tenKH, row, 1);
-					view.getModelKH().setValueAt(sdt, row, 2);
-					view.getModelKH().setValueAt(dc, row, 4);
-					view.getModelKH().setValueAt(diem, row, 6);
-
-				} else {
-					JOptionPane.showMessageDialog(null, "Thông tin không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-				}
-			} else {
-				JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng để sửa!");
-			}
-		});
-
+	}
+	public void update() {
+		String maKH = view.getTfMaSua().getText().trim();
+		String tenKH = view.getTfTenSua().getText().trim();
+		String gt = view.getTfGTSua().getText().trim();
+		String sdt = view.getTfSDTSua().getText().trim();
+		String diachi = view.getTfDiaChiSua().getText().trim();
+		String diem = view.getTfDiemSua().getText().trim();
+		int diem1 = Integer.parseInt(diem);
+		model.updateKH(maKH, tenKH, gt, sdt, diachi, diem1);
+		capNhatBang();
+		view.getFrameSua().dispose();
+		view.showValidDialog();
 	}
 
 	public void themKH() {

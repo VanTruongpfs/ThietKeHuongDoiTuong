@@ -118,6 +118,7 @@ public class TaoHoaDonController {
 									view.getTfTongTien().setText(tongTien + "");
 									flag = true;
 									hienThiSP();
+									view.getBgPTTT().clearSelection();
 								}
 							}
 							if(!flag) {
@@ -129,6 +130,7 @@ public class TaoHoaDonController {
 								view.getModelKho().setValueAt(soLuongConLai - soLuongThem, selected, 3);
 								model.updateSLSP(maSP, -soLuongThem);
 								hienThiSP();
+								view.getBgPTTT().clearSelection();
 							}
 							
 						}
@@ -183,6 +185,7 @@ public class TaoHoaDonController {
 					}
 
 				}
+				view.getBgPTTT().clearSelection();
 			}
 		});
 	}
@@ -209,7 +212,7 @@ public class TaoHoaDonController {
 			}
 		});
 	}
-
+	// chọn phương thức thanh toán
 	public void PTTT() {
 		ThanhToan pttt = new ThanhToan();
 		view.getRdTienMat().addActionListener(new ActionListener() {
@@ -218,7 +221,6 @@ public class TaoHoaDonController {
 				if (view.getRdTienMat().isSelected()) {
 					pttt.setPTTT(new TienMat());
 					tienKhachDua = pttt.getPhuongThucPay().pay(tongTien);
-//					view.getTfTienKhach().setText(tienKhachDua + "");
 				}
 			}
 		});
@@ -229,7 +231,6 @@ public class TaoHoaDonController {
 				if (view.getRdChuyenKhoan().isSelected()) {
 					pttt.setPTTT(new ChuyenKhoan());
 					tienKhachDua = pttt.getPhuongThucPay().pay(tongTien);
-//					view.getTfTienKhach().setText(tienKhachDua + "");
 				}
 			}
 		});
@@ -239,7 +240,6 @@ public class TaoHoaDonController {
 				if (view.getRdTheNganHang().isSelected()) {
 					pttt.setPTTT(new TheNganHang());
 					tienKhachDua = pttt.getPhuongThucPay().pay(tongTien);
-//					view.getTfTienKhach().setText(tienKhachDua + "");
 				}
 			}
 		});
@@ -323,6 +323,23 @@ public class TaoHoaDonController {
 					double thanhTien = Double.parseDouble(String.valueOf(view.getModelChiTiet().getValueAt(i, 4)));
 					model.insertChiTietHoaDon(new ChiTietHoaDon(maHD, maSP, tenSP, soLuong, thanhTien));
 				}
+				
+				int tongSoLuong = 0;
+				for (int i = 0; i < view.getTblChiTiet().getRowCount(); i++) {
+				    int soLuong = Integer.parseInt(String.valueOf(view.getModelChiTiet().getValueAt(i, 2)));
+				    tongSoLuong += soLuong;
+				}
+
+				
+			
+				if (!kh.getMaKH().equals("KHVangLai")) {
+				    KhachHangThanThiet khTT = (KhachHangThanThiet) kh;
+				    int diemCongThem = tongSoLuong * 2;
+				    khTT.setDiemTichLuy(khTT.getDiemTichLuy() + diemCongThem);
+				    model.capNhatDiemTichLuy(khTT);
+				}
+		
+				
 				tongTien = 0;
 				tienKhachDua = 0;
 				view.getModelChiTiet().setRowCount(0);

@@ -38,10 +38,10 @@ public class CuaHang implements Subject {
 		layKHTuDB();
 		insertNhanVienFromDB();
 	}
-
+	// lấy ds SP từ database
 	public void laySPTuDB() {
 		try {
-			Connection cnn = DBConnection.getConnection();
+			Connection cnn = DBConnection.getInstance().getConnection();
 			String sql = "SELECT * FROM SANPHAM";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -53,11 +53,11 @@ public class CuaHang implements Subject {
 			e.printStackTrace();
 		}
 	}
-
+	// lấy danh sách hóa đơn từ database
 	public List<HoaDon> laydsHD() {
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
 		try {
-			Connection con = DBConnection.getConnection();
+			Connection con = DBConnection.getInstance().getConnection();
 			String str = "SELECT * FROM HOADON";
 			PreparedStatement pre = con.prepareStatement(str);// dat cau lenh len con
 			ResultSet result = pre.executeQuery();
@@ -73,10 +73,10 @@ public class CuaHang implements Subject {
 		}
 		return dshd;
 	}
-
+	// lấy danh sách khách hàng từ database
 	public void layKHTuDB() {
 		try {
-			Connection cnn = DBConnection.getConnection();
+			Connection cnn = DBConnection.getInstance().getConnection();
 			String sql = "SELECT * FROM KHACHHANG";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -89,10 +89,10 @@ public class CuaHang implements Subject {
 			e.printStackTrace();
 		}
 	}
-
+	//lấy danh sách nhân viên từ database
 	public void insertNhanVienFromDB() {
 		try {
-			Connection con = DBConnection.getConnection();
+			Connection con = DBConnection.getInstance().getConnection();
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM NHANVIEN");
 			ResultSet rs = ps.executeQuery();
 			dsNV.clear();
@@ -109,7 +109,7 @@ public class CuaHang implements Subject {
 	public void themOB(Observer ob) {
 
 	}
-
+	//tìm kiếm nhân viên theo tên
 	public NhanVien timNhanVienTheoTen(String ten) {
 		for (NhanVien nv : dsNV) {
 			if (nv.getTenNV().equalsIgnoreCase(ten)) {
@@ -118,7 +118,7 @@ public class CuaHang implements Subject {
 		}
 		return null;
 	}
-
+	// tìm kiếm khách hàng theo sdt
 	public KhachHang timKhachHangTheoSDT(String sdt) {
 		for (Observer ob : dsKH) {
 			if (ob instanceof KhachHang) {
@@ -139,20 +139,15 @@ public class CuaHang implements Subject {
 	}
 
 	@Override
-	public void thongBaoSPM() {
-		// TODO Auto-generated method stub
-
+	public void thongBaoKH(String noidung) {
+		for (Observer o : dsKH) {
+			o.hienThiKM(noidung);
+		}
 	}
-
-	@Override
-	public void thongBaoKM() {
-		// TODO Auto-generated method stub
-
-	}
-
+// cập nhật trong tin ở giao diện tạo hóa đơn
 	public boolean updateSLSP(String maSP, int soLuong) {
 		try {
-			Connection cnn = DBConnection.getConnection();
+			Connection cnn = DBConnection.getInstance().getConnection();
 			String sql = "UPDATE SANPHAM SET tonKho = tonKho + ? WHERE maSP =?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setInt(1, soLuong);
@@ -166,10 +161,10 @@ public class CuaHang implements Subject {
 			return false;
 		}
 	}
-
+// thêm hóa đơn vào danh sách khi xuất hóa đơn
 	public boolean insertHoaDon(HoaDon hd) {
 		try {
-			Connection cnn = DBConnection.getConnection();
+			Connection cnn = DBConnection.getInstance().getConnection();
 			String sql = "INSERT INTO HOADON (MaHD, MaKH, MaNV, ngayLap, TongTien, PTPay) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 
@@ -189,10 +184,10 @@ public class CuaHang implements Subject {
 			return false;
 		}
 	}
-
+//thêm chi tiết hóa đơn vào danh sách khi xuất hóa đơn
 	public boolean insertChiTietHoaDon(ChiTietHoaDon ct) {
 		try {
-			Connection cnn = DBConnection.getConnection();
+			Connection cnn = DBConnection.getInstance().getConnection();
 			String sql = "INSERT INTO CHITIETHOADON (maHD, maSP, tenSP, soLuong, donGia) VALUES (?, ?, ?, ?, ?)";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, ct.getMaHD());
@@ -208,11 +203,11 @@ public class CuaHang implements Subject {
 			return false;
 		}
 	}
-
+	//lấy ra danh sách chi tiết của hóa đơn
 	public List<ChiTietHoaDon> layDsChiTietHoaDon(String maHD) {
 		List<ChiTietHoaDon> ds = new ArrayList<>();
 		try {
-			Connection cnn = DBConnection.getConnection();
+			Connection cnn = DBConnection.getInstance().getConnection();
 			String sql = "SELECT * FROM CHITIETHOADON WHERE MAHD = ?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, maHD);
@@ -233,7 +228,7 @@ public class CuaHang implements Subject {
 		}
 		return ds;
 	}
-
+	
 	public boolean checkTrung(String maSP, String tenSP) {
 		for (SanPham sp : dsSP) {
 			if (sp.getMaSP().equalsIgnoreCase(maSP) || sp.getTenSP().equalsIgnoreCase(tenSP)) {
@@ -242,7 +237,7 @@ public class CuaHang implements Subject {
 		}
 		return false;
 	}
-
+	// tìm kiếm sản phẩm
 	public SanPham searchSP(String maSP, String tenSP) {
 		for (SanPham p : dsSP) {
 			if (p.getMaSP().equalsIgnoreCase(maSP) || p.getTenSP().equalsIgnoreCase(tenSP)) {
@@ -251,10 +246,10 @@ public class CuaHang implements Subject {
 		}
 		return null;
 	}
-
+	//xóa sản phẩm trong kho
 	public void xoaSP(String maSP) {
 		try {
-			Connection conn = DBConnection.getConnection();
+			Connection conn = DBConnection.getInstance().getConnection();
 			String bangSP = "delete from SanPham where SanPham.maSP=?";
 			PreparedStatement ps = conn.prepareStatement(bangSP);
 			ps.setString(1, maSP);
@@ -264,7 +259,7 @@ public class CuaHang implements Subject {
 			e.printStackTrace();
 		}
 	}
-
+	//cập nhật thông tin sản phẩm trong kho
 	public void updateSP(String maSP, String tenSP, double donGia, int tonKho, String xuatXu) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -280,10 +275,10 @@ public class CuaHang implements Subject {
 			e.printStackTrace();
 		}
 	}
-
+	// thêm sản phẩm mới
 	public void themSP(String maSP, String tenSP, double donGia, int tonKho, String xuatXu) {
 		try {
-			Connection conn = DBConnection.getConnection();
+			Connection conn = DBConnection.getInstance().getConnection();
 			String bangSP = "insert SanPham values (?,?,?,?,?) ";
 			PreparedStatement ps = conn.prepareStatement(bangSP);
 			ps.setString(1, maSP);
@@ -298,7 +293,7 @@ public class CuaHang implements Subject {
 		}
 
 	}
-
+	//tổng số lượng sp trong kho
 	public int totalSP() {
 		int total = 0;
 		List<SanPham> dsSPMoi = getDsSP();
@@ -307,6 +302,7 @@ public class CuaHang implements Subject {
 		}
 		return total;
 	}
+	//thêm sản phẩm
 	public void themSP(SanPham sp) {
 		if (dsSP.contains(sp)) {
 			for (SanPham s : dsSP) {
@@ -325,7 +321,7 @@ public class CuaHang implements Subject {
 		return dsSP;
 	}
 
-	// khách hàng
+	// tìm khách hàng bằng tên hoặc mã
 	public KhachHang searchKH(String maKH, String tenKH) {
 		for (Observer observer : dsKH) {
 			if (observer instanceof KhachHangThanThiet) {
@@ -337,10 +333,10 @@ public class CuaHang implements Subject {
 		}
 		return null;
 	}
-
+	//thêm khách hàng
 	public void themKH(String maKH, String tenKH, String gt, String sdt, String diachi, int diem) {
 		try {
-			Connection conn = DBConnection.getConnection();
+			Connection conn =DBConnection.getInstance().getConnection();
 			String sql = "INSERT INTO KHACHHANG(maKH, tenKH, gt, sdt, diaChi, diemTichLuy) VALUES (?,?,?,?,?,?) ";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, maKH);
@@ -356,10 +352,11 @@ public class CuaHang implements Subject {
 		}
 
 	}
+	//xóa khách hàng
 	public boolean xoaKH(String maKH) {
 		try {
 			String sql = "DELETE FROM KHACHHANG WHERE maKH = ?";
-			Connection conn = DBConnection.getConnection();
+			Connection conn =DBConnection.getInstance().getConnection();
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, maKH.trim());
 			return stmt.executeUpdate() > 0;
@@ -369,11 +366,42 @@ public class CuaHang implements Subject {
 			return false;
 		}
 	}
+	// cập nhật thông tin khách hàng
+	public void updateKH(String maKH, String tenKH, String gioitinh, String sdt, String diachi, int diem) {
+		try {
+			Connection conn = DBConnection.getInstance().getConnection();
+			String bangKH = "update KhachHang set  tenKH= ?, gt= ? ,sdt= ? ,diaChi=?, diemTichLuy=? where maKH=?";
+			PreparedStatement ps = conn.prepareStatement(bangKH);
+			ps.setString(1, tenKH);
+			ps.setString(2, gioitinh);
+			ps.setString(3, sdt);
+			ps.setString(4, diachi);
+			ps.setInt(5, diem);
+			ps.setString(6, maKH);
+			int rs = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	//cập nhật điểm tích lũy khách hàng
+	public void capNhatDiemTichLuy(KhachHang kh) {
+	    String sql = "UPDATE KhachHang SET diemTichLuy = ? WHERE maKH = ?";
+	    try {
+	    	Connection conn = DBConnection.getInstance().getConnection();
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setInt(1, kh.getDiemTichLuy());
+	        stmt.setString(2, kh.getMaKH());
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	// tìm điểm tích lũy của khách hàng thông qua khách hàng thân thiết
 	public int getDiemtichLuy(String sdt) {
 		int diemTichLuy = 0;
 		try {
-			Connection cnn = DBConnection.getConnection();
+			Connection cnn = DBConnection.getInstance().getConnection();
 			String sql = "SELECT diemTichLuy FROM KHACHHANG WHERE sdt = ?";
 			PreparedStatement ps = cnn.prepareStatement(sql);
 			ps.setString(1, sdt);
@@ -389,7 +417,7 @@ public class CuaHang implements Subject {
 	}
 	
 	
-	
+	//tìm nhân viên theo mã nhân viên
 	public NhanVien timNhanVien(String maNV) {
 		NhanVien rs = null;
 		// TODO Auto-generated method stub

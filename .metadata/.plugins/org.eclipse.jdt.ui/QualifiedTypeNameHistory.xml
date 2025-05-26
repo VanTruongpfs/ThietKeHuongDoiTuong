@@ -14,7 +14,6 @@
     <fullyQualifiedTypeName name="java.util.Observer"/>
     <fullyQualifiedTypeName name="java.lang.Object"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
-    <fullyQualifiedTypeName name="java.lang.Math"/>
     <fullyQualifiedTypeName name="model.TienMat"/>
     <fullyQualifiedTypeName name="model.PTPAY"/>
     <fullyQualifiedTypeName name="model.ThanhToan"/>
@@ -40,4 +39,6 @@
     <fullyQualifiedTypeName name="utils.DBConnection"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
     <fullyQualifiedTypeName name="model.CuaHang"/>
+    <fullyQualifiedTypeName name="model.Observer"/>
+    <fullyQualifiedTypeName name="java.lang.Math"/>
 </qualifiedTypeNameHistroy>

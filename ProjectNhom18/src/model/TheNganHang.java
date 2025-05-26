@@ -1,5 +1,7 @@
 package model;
 
+import java.text.DecimalFormat;
+
 public class TheNganHang implements PTPAY {
 	
 	
@@ -15,7 +17,8 @@ public class TheNganHang implements PTPAY {
 
 	@Override
 	public double pay(double tien) {
-		return tien*= 1.02 ;
+		DecimalFormat df = new DecimalFormat("#.00");
+		return  Double.parseDouble(df.format(tien*1.02));
 	}
 
 	@Override

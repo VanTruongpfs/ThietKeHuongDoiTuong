@@ -10,15 +10,26 @@ import javax.swing.table.DefaultTableModel;
 public class QLKHView {
     JPanel pnQuanLyKhachHang = new JPanel();
     JPanel pnTrai, pnPhai, pnDuoi, formPanel, pnTimKiem, pnThongBao;
-    JButton btnThem, btnXoa, btnSua, btnTim, btnThongBao;
-    JTextField txtMaKH, txtTenKH, txtSDT, txtDiaChi, txtDiem, tfTimKiem, tfThongBao;
+    JButton btnThem, btnXoa, btnSua, btnTim, btnThongBao,btnHuy,btnChapNhan;
+    JTextField txtMaKH, txtTenKH, txtSDT, txtDiaChi, txtDiem, tfTimKiem, tfThongBao, tfMaSua, tfTenSua, tfGTSua, tfSDTSua, tfDiaChiSua, tfDiemSua;
     JComboBox<String> cboGioiTinh;
     JTable tblKH;
     DefaultTableModel modelKH;
     JScrollPane scrollKH;
     JSplitPane splitPane;
+    JFrame frameSua;
 
     public QLKHView() {
+
+    	tfMaSua = new JTextField(10);
+		tfTenSua = new JTextField(10);
+		tfGTSua = new JTextField(10);
+		tfSDTSua = new JTextField(10);
+		tfDiaChiSua = new JTextField(10);
+		tfDiemSua = new JTextField(10);
+        btnChapNhan= new JButton("Chấp nhận");
+		btnHuy = new JButton("Hủy");
+	
     	pnQuanLyKhachHang.setLayout(new BorderLayout());
 
 	    // Panel bên trái
@@ -119,6 +130,8 @@ public class QLKHView {
 		pnQuanLyKhachHang.add(splitPane, BorderLayout.CENTER);
 		pnQuanLyKhachHang.revalidate();
 		pnQuanLyKhachHang.repaint();
+	btnSua.addActionListener(e -> cuaSoSua());
+	btnHuy.addActionListener(e -> frameSua.dispose());
 	}
     public JPanel QLKH(){
         return  pnQuanLyKhachHang;
@@ -275,5 +288,137 @@ public class QLKHView {
 	public static void showInvalidDialog() {
 		JOptionPane.showMessageDialog(null, "Thông tin không hợp lệ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 	}
+public void cuaSoSua() {
+		int select =tblKH.getSelectedRow();
+		if(select!=-1) {
+			String maKH= tblKH.getValueAt(select, 0).toString();
+			String tenKH= tblKH.getValueAt(select, 1).toString();
+			String gt= tblKH.getValueAt(select, 2).toString();
+			String sdt = tblKH.getValueAt(select, 3).toString();
+			String diachi= tblKH.getValueAt(select, 4).toString();
+			String diem = tblKH.getValueAt(select, 5).toString();
+		frameSua = new JFrame("Sửa thông tin khách hàng");
+		frameSua.setSize(400, 250);
+		frameSua.setLocationRelativeTo(null);
+		frameSua.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(7, 1));
+		frameSua.add(panel);
+
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new GridLayout(1,2));
+		panel1.add(new JLabel("Mã khách hàng:"));
+		panel1.add(tfMaSua);
+		tfMaSua.setText(maKH);
+		tfMaSua.setEditable(false);
+		
+		panel.add(panel1);
+
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new GridLayout(1,2));
+		panel2.add(new JLabel("Tên khách hàng:"));
+		panel2.add(tfTenSua);
+		tfTenSua.setText(tenKH);
+		panel.add(panel2);
+
+		JPanel panel3 = new JPanel();
+		panel3.setLayout(new GridLayout(1,2));
+		panel3.add(new JLabel("Giới tính"));
+		panel3.add(tfGTSua);
+		tfGTSua.setText(gt);
+		panel.add(panel3);
+
+		JPanel panel4 = new JPanel();
+		panel4.setLayout(new GridLayout(1,2));
+		panel4.add(new JLabel("Số điện thoại"));
+		panel4.add(tfSDTSua);
+		tfSDTSua.setText(sdt);
+		panel.add(panel4);
+
+		JPanel panel5 = new JPanel();
+		panel5.setLayout(new GridLayout(1,2));
+		panel5.add(new JLabel("Địa chỉ"));
+		panel5.add(tfDiaChiSua);
+		tfDiaChiSua.setText(diachi);
+		panel.add(panel5);
+
+		JPanel panel6 = new JPanel();
+		panel6.setLayout(new GridLayout(1,2));
+		panel6.add(new JLabel("Điểm"));
+		panel6.add(tfDiemSua);
+		tfDiemSua.setText(diem);
+		panel.add(panel6);
+
+
+		JPanel panel7 = new JPanel();
+		panel7.setLayout(new FlowLayout());
+		panel7.add(btnChapNhan);
+		panel7.add(btnHuy);
+		panel.add(panel7);
+
+		//
+		frameSua.setVisible(true);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng !", "Thông báo", JOptionPane.WARNING_MESSAGE, null);
+		}
+		
+	}
+public JButton getBtnHuy() {
+	return btnHuy;
+}
+public void setBtnHuy(JButton btnHuy) {
+	this.btnHuy = btnHuy;
+}
+public JButton getBtnChapNhan() {
+	return btnChapNhan;
+}
+public void setBtnChapNhan(JButton btnChapNhan) {
+	this.btnChapNhan = btnChapNhan;
+}
+public JTextField getTfMaSua() {
+	return tfMaSua;
+}
+public void setTfMaSua(JTextField tfMaSua) {
+	this.tfMaSua = tfMaSua;
+}
+public JTextField getTfTenSua() {
+	return tfTenSua;
+}
+public void setTfTenSua(JTextField tfTenSua) {
+	this.tfTenSua = tfTenSua;
+}
+public JTextField getTfGTSua() {
+	return tfGTSua;
+}
+public void setTfGTSua(JTextField tfGTSua) {
+	this.tfGTSua = tfGTSua;
+}
+public JTextField getTfSDTSua() {
+	return tfSDTSua;
+}
+public void setTfSDTSua(JTextField tfSDTSua) {
+	this.tfSDTSua = tfSDTSua;
+}
+public JTextField getTfDiaChiSua() {
+	return tfDiaChiSua;
+}
+public void setTfDiaChiSua(JTextField tfDiaChiSua) {
+	this.tfDiaChiSua = tfDiaChiSua;
+}
+public JTextField getTfDiemSua() {
+	return tfDiemSua;
+}
+public void setTfDiemSua(JTextField tfDiemSua) {
+	this.tfDiemSua = tfDiemSua;
+}
+public JFrame getFrameSua() {
+	return frameSua;
+}
+public void setFrameSua(JFrame frameSua) {
+	this.frameSua = frameSua;
+}
+
 	
 }

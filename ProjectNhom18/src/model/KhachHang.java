@@ -59,6 +59,8 @@ public abstract class KhachHang implements Observer{
 	public void setDiachi(String diachi) {
 		this.diachi = diachi;
 	}
+
+	public abstract int getDiemTichLuy();
 	
      
 }

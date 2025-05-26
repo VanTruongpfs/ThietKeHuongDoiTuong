@@ -26,4 +26,10 @@ public class KhachHangBinhThuong extends KhachHang {
 		
 	}
 
+	@Override
+	public int getDiemTichLuy() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
