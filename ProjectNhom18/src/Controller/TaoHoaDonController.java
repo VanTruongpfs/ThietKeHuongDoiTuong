@@ -39,10 +39,7 @@ public class TaoHoaDonController {
 	private TaoHoaDonView view;
 	private CuaHang model;
 	private double tongTien = 0;
-	private double tienKhachDua;
-	private QLSanPhamView sp;
-	private MainController main;
-	
+	private double tienKhachDua;	
 	public TaoHoaDonController(TaoHoaDonView view, CuaHang model) {
 		this.view = view;
 		this.model = model;

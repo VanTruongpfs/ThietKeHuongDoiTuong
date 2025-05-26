@@ -39,6 +39,7 @@ public class KhachHangController {
 		view.getBtnThongBao().addActionListener(e -> {
 			String tb = view.getTfThongBao().getText();
 			if (!tb.isEmpty()) {
+				model.thongBaoKH(tb);
 				JOptionPane.showMessageDialog(null, "Đã gửi thông báo đến tất cả khách hàng");
 			}
 		});

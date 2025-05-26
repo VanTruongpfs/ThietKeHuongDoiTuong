@@ -9,17 +9,9 @@ public class KhachHangBinhThuong extends KhachHang {
 	}
 
 	@Override
-	public void hienThiTTSP(String nd) {
-		// TODO Auto-generated method stub
-		
+	public void hienThiTB(String nd) {
+		System.out.println(tenKH+" đã nhận được thông báo: "+nd);
 	}
-
-	@Override
-	public void hienThiKM(String nd) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public void themSP(SanPham sp) {
 		// TODO Auto-generated method stub

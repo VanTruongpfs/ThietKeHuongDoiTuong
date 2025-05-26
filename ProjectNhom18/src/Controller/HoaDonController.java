@@ -113,7 +113,7 @@ public class HoaDonController {
 				try {
 					
 					StringBuilder message = new StringBuilder("Chi tiết hóa đơn " + maHD + ":\n\n");
-
+					
 		            for (ChiTietHoaDon ct : dsCTHD) {
 		                message.append("Mã SP: ").append(ct.getMaSP())
 		                       .append("\nTên SP: ").append(ct.getTenSP())
@@ -121,7 +121,6 @@ public class HoaDonController {
 		                       .append("\nSố lượng: ").append(ct.getSoLuong())
 		                       .append("\n-----------------------------\n");
 		            }
-
 
 					JOptionPane.showMessageDialog(null, message, "Chi tiết sản phẩm", JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception ex) {

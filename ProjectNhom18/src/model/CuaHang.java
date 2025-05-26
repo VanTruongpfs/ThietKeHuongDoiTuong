@@ -141,7 +141,7 @@ public class CuaHang implements Subject {
 	@Override
 	public void thongBaoKH(String noidung) {
 		for (Observer o : dsKH) {
-			o.hienThiKM(noidung);
+			o.hienThiTB(noidung);
 		}
 	}
 // cập nhật trong tin ở giao diện tạo hóa đơn
