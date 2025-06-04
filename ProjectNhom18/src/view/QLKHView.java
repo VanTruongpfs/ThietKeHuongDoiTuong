@@ -114,7 +114,7 @@ public class QLKHView {
 		pnTimKiem.add(tfTimKiem, BorderLayout.CENTER);
 		pnTimKiem.add(btnTim, BorderLayout.EAST);
 
-		String[] cols = { "Mã KH", "Tên khách hàng", "Số điện thoại", "Giới tính", "Địa chỉ", "Điểm tích lũy" };
+		String[] cols = { "Mã KH", "Tên khách hàng","Giới tính ", "Số điện thoại", "Địa chỉ", "Điểm tích lũy" };
 		modelKH = new DefaultTableModel(cols, 0);
 		tblKH = new JTable(modelKH);
 		tblKH.setFillsViewportHeight(true);

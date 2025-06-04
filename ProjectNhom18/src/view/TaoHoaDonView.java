@@ -26,13 +26,13 @@ public class TaoHoaDonView {
     JPanel pnTaoDon = new JPanel();
     JSplitPane splitPaneTD;
     JPanel pnTraiTD, pnPhaiTD, pnThanhToan, pnThongTin, pnThaoTac, ptPanel, pnNut, pnDuoiTrai, pnTimKiem;
-    JTextField tfMaHD, tfNgayLap, tfSDT, tfTongTien, tfTienKhach, tfTimKiem;
+    JTextField  tfNgayLap, tfSDT, tfTongTien, tfTienKhach, tfTimKiem;
     JTable tblChiTiet, tblMenu;
     DefaultTableModel modelChiTiet, modelKho;
     JRadioButton rdTienMat, rdChuyenKhoan, rdTheNganHang;
     ButtonGroup bgPTTT;
     JButton btnHuy, btnXuat, btnTim, btnThemSP, btnXoaSP, btnTamTinh;
-    JLabel lblMaHD, lblNgayLap, lblTongTien, lblPTTT, lblTenNV, lblTienKhach, lblSDT;
+    JLabel  lblNgayLap, lblTongTien, lblPTTT, lblTenNV, lblTienKhach, lblSDT;
     JComboBox<String> cbTenNV;
     JScrollPane scrollMenu, scrollChiTiet;
     
@@ -47,9 +47,7 @@ public class TaoHoaDonView {
 		pnThongTin = new JPanel(new GridLayout(4, 2, 10, 10));
 		pnThongTin.setBorder(BorderFactory.createTitledBorder("HÓA ĐƠN BÁN LẺ"));
 
-		// Các trường nhập liệu (tạo trước)
-//		lblMaHD = new JLabel("Mã hóa đơn");
-//		tfMaHD = new JTextField("HD002");
+
 
 		lblNgayLap = new JLabel("Ngày lập hóa đơn");
 		LocalDate date = LocalDate.now();
@@ -68,9 +66,7 @@ public class TaoHoaDonView {
 		lblSDT = new JLabel("SDT khách hàng");
 		tfSDT = new JTextField();
 
-		// Thêm vào panel thông tin
-//		pnThongTin.add(lblMaHD);
-//		pnThongTin.add(tfMaHD);
+
 		pnThongTin.add(lblNgayLap);
 		pnThongTin.add(tfNgayLap);
 		pnThongTin.add(lblTenNV);
@@ -159,7 +155,7 @@ public class TaoHoaDonView {
 		splitPaneTD.setLeftComponent(pnTraiTD);
 		splitPaneTD.setRightComponent(pnPhaiTD);
         pnTraiTD.setMinimumSize(new Dimension(530, 400));
-        pnPhaiTD.setMinimumSize(new Dimension(400, 400));
+        pnPhaiTD.setMinimumSize(new Dimension(500, 400));
 		pnTaoDon.removeAll();
 		pnTaoDon.add(splitPaneTD, BorderLayout.CENTER);
 		pnTaoDon.revalidate();
@@ -213,9 +209,7 @@ public class TaoHoaDonView {
 	public JPanel getPnTimKiem() {
 		return pnTimKiem;
 	}
-	public JTextField getTfMaHD() {
-		return tfMaHD;
-	}
+	
 	public JTextField getTfNgayLap() {
 		return tfNgayLap;
 	}
@@ -264,9 +258,7 @@ public class TaoHoaDonView {
 	public JButton getBtnXoaSP() {
 		return btnXoaSP;
 	}
-	public JLabel getLblMaHD() {
-		return lblMaHD;
-	}
+
 	public JLabel getLblNgayLap() {
 		return lblNgayLap;
 	}
