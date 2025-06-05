@@ -13,49 +13,26 @@ public class DBConnection {
     private static Connection conn;
     
 	private static DBConnection instance;
-    public static synchronized DBConnection getInstance() {
+	private DBConnection() throws SQLException {
+		 if (conn == null) {
+	            try {
+	                Class.forName("com.mysql.cj.jdbc.Driver");
+	                conn = DriverManager.getConnection(URL, USER, PASSWORD);
+	            } catch (ClassNotFoundException e) {
+	                System.out.println("Không tìm thấy driver MySQL JDBC.");
+	                e.printStackTrace();
+	            }
+	        }
+	}
+    public static synchronized DBConnection getInstance() throws SQLException {
         if (instance == null) {
             instance = new DBConnection();
         }
         return instance;
     }
     public static Connection getConnection() {
-        if (conn == null) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            } catch (ClassNotFoundException e) {
-                System.out.println("Không tìm thấy driver MySQL JDBC.");
-                e.printStackTrace();
-            } catch (SQLException e) {
-                System.out.println("Lỗi kết nối đến database.");
-                e.printStackTrace();
-            }
-        }
+        
         return conn;
-    }
-
-    public static void closeConnection(Connection c) {
-        if (c != null) {
-            try {
-                c.close();
-                c = null;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
-    public static void printInfo(Connection c) {
-    	try {
-			if (c != null) {
-				System.out.println(c.getMetaData().toString());
-				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
+    }    
     
 }
