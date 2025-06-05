@@ -140,13 +140,12 @@ public class HoaDonController {
 		         List<HoaDon> locKetQua = new ArrayList<>();
 		         for (HoaDon hd : dshd) {
 		               
-		                Date ngayLap = hd.getNgayLapHD();
-		                Calendar cal = Calendar.getInstance();
-		                cal.setTime(ngayLap);
+		               Date ngayLap = hd.getNgayLapHD();
+		        	 LocalDate localDate = ngayLap.toLocalDate();
 
-		                int ngay = cal.get(Calendar.DAY_OF_MONTH);
-		                int thang = cal.get(Calendar.MONTH) + 1;
-		                int nam = cal.get(Calendar.YEAR);
+		        	 int ngay = localDate.getDayOfMonth();
+		        	 int thang = localDate.getMonthValue();
+		        	 int nam = localDate.getYear();
 		                boolean match = true;
 		                try {
 		                    if (!ngayStr.isEmpty()) {
